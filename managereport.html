@@ -157,15 +157,14 @@
     });
 
     $('#delete').click(function() {
-        var bOk = confirm("Kuay?");
+        var bOk = confirm("Are you sure to delete it?");
         if(bOk == true){
             $.post( "/admin/delete-report", data)
                 .done(function(data) {
-                    let div = $('#report-output');
-                    div.text('');
-                    $('#delete').hide();
-                    get_account();
                 });
+            $('#report-output').hide();
+            $('#delete').hide();
+            get_report();  
         }
     })
 
