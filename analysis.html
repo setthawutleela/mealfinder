@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Meal Finder @KMUTT</title>
+    <link rel="icon" href="pic/logo.png">
+    <link href="https://fonts.googleapis.com/css?family=Arimo&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css"> 
+</head>
+<body>
+
+        <div class="clearfix container-fluid">
+                <div class="navBar">
+                    <ul>
+                        <div class="floatL">
+                            <li><a href="/admin">BACK</a></li>
+                        </div>
+                        <div class="floatR">
+                            <li><a href="/signout">SIGN OUT</a></li>
+                            <li>
+                                <p id='username'></p>
+                            </li>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+
+    <div class ="container">
+        <h1>Analysis management</h1>
+        <div class ="row">
+            <div class="col-3">
+                <div class="list-group">
+                    <button type="button" class="list-group-item list-group-item-action" value="1" active>Top 5 restaurants that have the most view count</button>
+                    <button type="button" class="list-group-item list-group-item-action" value="2">Dapibus ac facilisis in</button>
+                    <button type="button" class="list-group-item list-group-item-action" value="3">Morbi leo risus</button>
+                    <button type="button" class="list-group-item list-group-item-action" value="4">Porta ac consectetur ac</button>
+                    <button type="button" class="list-group-item list-group-item-action" value="5">Vestibulum at eros</button>
+                    <button type="button" class="list-group-item list-group-item-action" value="6">Vestibulum at eros</button>
+                    <button type="button" class="list-group-item list-group-item-action" value="7">Vestibulum at eros</button>
+                    <button type="button" class="list-group-item list-group-item-action" value="8">Vestibulum at eros</button>
+                    <button type="button" class="list-group-item list-group-item-action" value="9">Vestibulum at eros</button>
+                    <button type="button" class="list-group-item list-group-item-action" value="10">Vestibulum at eros</button>
+                    <button type="button" class="list-group-item list-group-item-action" value="11">Vestibulum at eros</button>
+                    <button type="button" class="list-group-item list-group-item-action" value="12">Vestibulum at eros</button>
+                    <button type="button" class="list-group-item list-group-item-action" value="13">Vestibulum at eros</button>
+                </div>
+            </div>
+            <div class="col">
+                <div class="display">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">First</th>
+                                <th scope="col">Last</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>Larry</td>
+                                <td>the Bird</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    let analysis;
+    let data;
+    $.get('/check-session', (data, status)=> {
+        cookies = JSON.parse(data)
+        console.log(cookies)
+        $('#username').text(cookies.fullName)
+    })
+
+    $('button').click(function(){
+        $('button').attr('class', 'list-group-item list-group-item-action');
+        $( this ).attr('class', 'list-group-item list-group-item-action active');
+        var x = $( this ).val();
+        data = {val: x};
+        console.log(x);
+        $.post("/admin/analysis", data).done(function(data) {
+            analysis = JSON.parse(data);
+        }); 
+        console.log(analysis);
+        // var row;
+        // var table = $('<table class="table table-striped">').attr('id', 'display-table');
+        // var thead = $('<thead>');
+        // var tbody = $('<tbody>');
+        // for (i = 0; i < analysis.length; i++) {
+        //     var row = `<tr><td>${i+1}</td><td>${users[i].email}</td></tr>`
+        //     tbody.append(row);
+        // }
+        $.each(analysis, function(index) {
+            // then loop over the object elements
+            $.each(analysis[index], function(key, value) {
+                console.log(index + ": "+key + ": " + value);
+                // var row = `<tr><td th="scope">${index}</td><td>${value}</td></tr>`
+            });
+
+        });
+
+    });
+
+    // $('#search-op').text('')
+    // var table = $('<table>').attr('id', 'account-table');
+    //     table.css('border', '1px solid black');
+    // var tbody = $('<tbody>')
+    // for (i = 0; i < users.length; i++) {
+        
+    //     var row = `<tr id='${i}'><td>${users[i].email}</td></tr>`
+    //     tbody.append(row);
+    // }
+    // table.append(tbody)
+    // $('#search-op').append(table);
+
+</script>
+</html>

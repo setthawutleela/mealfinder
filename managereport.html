@@ -159,7 +159,7 @@
     $('#delete').click(function() {
         var bOk = confirm("Are you sure to delete it?");
         if(bOk == true){
-            $.post( "/admin/delete-report", data)
+            $.post("/admin/delete-report", data)
                 .done(function(data) {
                 });
             $('#report-output').hide();
