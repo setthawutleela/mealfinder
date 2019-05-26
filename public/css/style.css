@@ -1,0 +1,185 @@
+body{
+    margin: 1% 0 3% 0;
+    font-family: 'Arimo', sans-serif;
+    font-weight: bold;
+    }
+
+.navBar ul{
+    margin: 0;
+    list-style-type: none;
+    padding: 0;
+    overflow: hidden;
+  }
+  
+.navBar .floatL img{
+      float: left;
+      width: 70px;
+      height: 70px;
+      margin-bottom: 10px;
+  }
+
+.navBar .floatL li{
+    float: left;
+  }
+
+.navBar .floatR li{
+    float: right;
+  }
+  
+.navBar li a:not(.picAccount){
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 15.5px 25px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+.navBar li p{
+    display: block;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    }
+
+.navBar li .picAccount{
+    margin: 0;
+    }
+
+.clearfix:after {
+    content: "";
+    clear: both;
+    display: table;
+    }
+
+.rand{
+    margin: 0;
+}
+
+.rand ul{
+    text-align: center;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    }
+
+h1{
+    font-size: 45px;
+    margin: 0;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.rand li{
+    text-align: center;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+.rand a{
+    text-decoration: none;
+    color: black;
+}
+
+.signin, .signup, .report{
+    text-align: center;
+}
+
+.ipform input{
+    width: 20%;
+    border: 1px solid grey;
+    border-radius: 4px;
+    margin: 5px 0;
+    opacity: 0.85;
+    font-size: 12px;
+    line-height: 20px;
+    padding: 5px;
+    text-decoration: none;
+}
+
+.ipform input:hover{
+    opacity: 1;
+}
+
+.ipform input[type=submit]{
+    border: none;
+    background: #6A993E;
+    color: white;
+}
+
+.clientpage .nav{
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 25px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.adminpage .managementgal ul{
+    list-style-type: none;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}   
+
+.adminpage .managementgal li{
+    display: inline-block;
+}
+
+.adminpage .management{
+    margin: 5px;
+    border: 1px solid #ccc;
+    width: 100px;
+    border-radius: 4px;
+  }
+
+.adminpage .management:hover {
+    border: 1px solid #777;
+}
+
+.adminpage .management img{
+    width: 100%;
+    height: auto;
+}
+
+.adminpage .desc{
+    font-size: 10px;
+    padding: 10px;
+    text-align: center;
+}
+
+h1.adminpage{
+    font-size: 45px;
+    margin: 0;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+#account-table tr:hover{
+    cursor: pointer;
+    background-color: #eee;
+}
+
+.search{
+    float: left;
+    font-size: 12px;
+    text-align: center;
+}
+
+#mySearch {
+    width: 100%;
+    margin: 0 auto;
+}
+
+#search-op table{
+    text-align: left;
+    font-size: 1.2vw;
+    width: 100%;
+    margin: 0 auto;
+}
