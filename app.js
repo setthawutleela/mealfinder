@@ -23,7 +23,7 @@ const con = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'mealfinder'
+    database: 'mealfinder2'
 });
 //Connect database
 con.connect((err) => {
@@ -65,6 +65,11 @@ app.get('/customer/theme-view', (req, res) => {
     res.sendFile(__dirname+'/theme_view.html')
 });
 
+app.get('/aboutUs', (req, res) => {
+    res.sendFile(__dirname+'/aboutUs.html')
+
+});
+
 
 app.post('/signin',(req, res) => {
     console.log('Sign in requested...');
@@ -87,6 +92,7 @@ app.post('/signin',(req, res) => {
                     if(result[0].rank == 'admin'){
                         res.redirect('/admin');
                     }
+            
                     else if(result[0].rank == 'client'){
                         res.redirect('/');
                     }
@@ -253,3 +259,4 @@ const port = 3000;
 app.listen(port, () => {
     console.log(`Server started on port ${port}!`)
 });
+

@@ -34,11 +34,10 @@
     </div>
     <div class="clearfix">
         <div class="rand">
-            <h1>#<br></h1>
-            <ul>
-                <li><a href="#randombtn" onclick="myFunction()">RANDOM</a></li>
-                <li><p id="randomans"></p></li>
-            </ul>
+            <h1>#About Us<br></h1>
+            <p>
+                Our project is to design and develop a web application that searches restaurants around King Mongkut’s University of Technology Thonburi (KMUTT) and randomly selects the restaurants and the meals for the client in 1 kilometer radius
+            </p>
         </div>
     </div>
 
@@ -52,8 +51,6 @@
 <script>
     $('.client').hide()
     $('.not-client').show()
-
-    
 
     $.get('/check-session', (data, status)=> {
         cookies = JSON.parse(data)
