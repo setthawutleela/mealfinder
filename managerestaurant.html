@@ -601,7 +601,7 @@
 </body>
 <script>
     var restaurants;
-    let data;
+    let data = null;
 
     $('#delete').hide();
     $('#edit').hide();
@@ -657,7 +657,6 @@
             }
             table.append(tbody)
             $('#search-op').append(table);
-            console.log(restaurants);
         });
     }
 
@@ -682,12 +681,11 @@
         data = restaurants[idx];
         $('#edit').show();
         $('#delete').show();
-        $('#restaurant-output').show();
+        $('#restaurant-output').show()
         $('#editsubmit').hide();
         $('#addsubmit').hide();
         $('#edit-form').hide();
         $('#add-form').hide();
-        
         $("#output-restaurant_id").attr('value',`${data.restaurant_ID}`);
         $("#output-restaurantName").attr('value',`${data.restaurantName}`);
         $("#output-restaurantAddress").attr('value',`${data.restaurantAddress}`);
@@ -706,12 +704,11 @@
         if(bOk == true){
             $.post( "/admin/delete-restaurant", data)
                 .done(function(data) {
-                    let div = $('#restaurant-output');
-                    div.text('');
-                    $('#delete').hide();
-                    $('#edit').hide();
-                    get_theme();
                 });
+                $('#restaurant-output').hide();
+                $('#delete').hide();
+                $('#edit').hide();
+                get_restaurant();
         }
     })
 
@@ -742,17 +739,18 @@
     $('#editsubmit').click(function() {
         var bOk = confirm("Are you sure to edit it?");
         if(bOk == true){
-            console.log(data);
-            data.restaurantName = $('#edit-restaurantName').val();
-            data.restaurantAddress = $('#edit-restaurantAddress').val();
-            data.restaurantPhone = $('#edit-restaurantPhone').val();
-            data.openTimeWeekday = $('#edit-openTimeWeekday').val();
-            data.openTimeWeekend = $('#edit-openTimeWeekend').val();
-            data.closeTime = $('#edit-closeTime').val();
-            data.storeType = $('#edit-storeType').val();
-            data.restaurantDes = $('#edit-restaurantDes').val();
-            data.open_ID = $('#edit-open_ID').val();
-            console.log(data);
+
+            data = {
+                restaurantName: $('#edit-restaurantName').val(),
+                restaurantAddress: $('#edit-restaurantAddress').val(),
+                restaurantPhone: $('#edit-restaurantPhone').val(),
+                openTimeWeekday: $('#edit-restaurantPhone').val(),
+                openTimeWeekend: $('#edit-openTimeWeekend').val(),
+                closeTime: $('#edit-closeTime').val(),
+                storeType: $('#edit-storeType').val(),
+                restaurantDes: $('#edit-restaurantDes').val(),
+                open_ID: $('#edit-open_ID').val()
+            }
             $.post("/admin/edit-restaurant", data)
                 .done(function(data) {
                     console.log('Restaurant edited...')
@@ -777,20 +775,22 @@
     });
 
     $('#addsubmit').click(function() {
-        var bOk = confirm("Are you sure to add it?");
+        var bOk = confirm("Are you sure to add it?");   
         if(bOk == true){
-            data.restaurantName = $('#add-restaurantName').val();
-            data.restaurantAddress = $('#add-restaurantAddress').val();
-            data.restaurantPhone = $('#add-restaurantPhone').val();
-            data.openTimeWeekday = $('#add-openTimeWeekday').val();
-            data.openTimeWeekend = $('#add-openTimeWeekend').val();
-            data.closeTime = $('#add-closeTime').val();
-            data.storeType = $('#add-storeType').val();
-            data.restaurantDes = $('#add-restaurantDes').val();
-            data.open_ID = $('#add-open_ID').val();
+
+            data = {
+                restaurantName: $('#add-restaurantName').val(),
+                restaurantAddress: $('#add-restaurantAddress').val(),
+                restaurantPhone: $('#add-restaurantPhone').val(),
+                openTimeWeekday: $('#add-openTimeWeekday').val(),
+                openTimeWeekend: $('#add-openTimeWeekend').val(),
+                closeTime: $('#add-closeTime').val(),
+                storeType: $('#add-storeType').val(),
+                restaurantDes: $('#add-restaurantDes').val(),
+                open_ID: $('#add-open_ID').val()
+            }
             $.post( "/admin/add-restaurant", data)
                 .done(function(data) {
-                    console.log('Restaurant added...')
                 });
         }
         $('#add-form').hide();

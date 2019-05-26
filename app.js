@@ -57,7 +57,11 @@ app.get('/admin/manage-theme', (req, res) => {
     res.sendFile(__dirname+'/managetheme.html')
 });
 
-app.get('/report', (req, res) => {
+app.get('/admin/manage-report', (req, res) => {
+    res.sendFile(__dirname+'/managereport.html')
+});
+
+app.get('/customer/report', (req, res) => {
     res.sendFile(__dirname+'/report.html')
 });
 
@@ -167,7 +171,7 @@ app.get('/admin/get-account', (req, res) => {
 app.post('/admin/delete-account', (req, res) => {
     let sql = `DELETE FROM user_info WHERE user_id = ${req.body.user_id}`;
     let query = con.query(sql, (err, results) => {
-        res.send('success');
+        res.redirect('/admin/manage-account');
     })
 });
 
@@ -181,7 +185,7 @@ app.get('/admin/get-theme', (req, res) => {
 app.post('/admin/delete-theme', (req, res) => {
     let sql = `DELETE FROM theme_info WHERE theme_id = ${req.body.theme_id}`;
     let query = con.query(sql, (err, results) => {
-        res.send('success');
+        res.send(JSON.stringify(results))
     })
 });
 
@@ -189,7 +193,7 @@ app.post('/admin/edit-theme', (req, res) => {
     console.log(req.body);
     let sql = `UPDATE theme_info SET themeName = '${req.body.themeName}' WHERE theme_id = '${req.body.theme_id}'`
     let query = con.query(sql, (err, results) => {
-        res.send(JSON.stringify(results))
+        res.redirect('/manage-theme');
     });
 });
 
@@ -199,7 +203,7 @@ app.post('/admin/add-theme', (req, res) => {
                 VALUES('${req.body.themeName}', '${req.body.themeDescription}', '${req.body.themeStartDate}',
                 '${req.body.themeEndDate}', '${req.body.themeViewCount}')`
     let query = con.query(sql, (err, results) => {
-        res.send(JSON.stringify(results))
+        res.redirect('/admin/manage-theme');
     });
 });
 
@@ -257,14 +261,27 @@ app.post('/admin/edit-restaurant', (req, res) => {
                 WHERE restaurant_ID = '${req.body.restaurant_ID}'`;
 
     let query = con.query(sql, (err, results) => {
-        if(err) throw err;
         res.send(JSON.stringify(results))
     });
 });
 
 app.post('/admin/add-restaurant', (req, res) => {
-    res.send('EIEI');
-})
+    console.log(req.body);
+    let sql = `INSERT INTO restaurant_info(restaurantName, restaurantAddress, restaurantPhone,
+                openTimeWeekday, openTimeWeekend, closeTime, storeType, restaurantDes, open_ID)
+                VALUES('${req.body.restaurantName}', '${req.body.restaurantAddress}', '${req.body.restaurantPhone}',
+                '${req.body.openTimeWeekday}', '${req.body.openTimeWeekend}', '${req.body.closeTime}',
+                '${req.body.storeType}', '${req.body.restaurantDes}', '${req.body.open_ID}')`
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    });
+});
+app.post('/admin/delete-restaurant', (req, res) => {
+    let sql = `DELETE FROM restaurant_info WHERE restaurant_ID = ${req.body.restaurant_ID}`;
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    })
+});
 
 app.post('/customer/get-blog', (req, res) =>{
     let sql = `SELECT blogTopic FROM blog WHERE 1`;
@@ -303,6 +320,20 @@ app.post('/customer/add-blog',(req, res) => {
             res.redirect('/customer/blog');
         }
     });
+});
+
+app.get('/admin/get-report', (req, res) => {
+    let sql = `SELECT * FROM report WHERE 1`;
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    })
+});
+
+app.post('/admin/delete-report', (req, res) => {
+    let sql = `DELETE FROM report WHERE report_ID = ${req.body.report_ID}`;
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    })
 });
 
 

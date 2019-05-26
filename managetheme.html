@@ -271,12 +271,11 @@
         if(bOk == true){
             $.post( "/admin/delete-theme", data)
                 .done(function(data) {
-                    let div = $('#theme-output');
-                    div.text('');
-                    $('#delete').hide();
-                    $('#edit').hide();
-                    get_theme();
                 });
+            $('#theme-output').hide();
+            $('#delete').hide();
+            $('#edit').hide();
+            get_theme();
         }
     })
     //edit theme
@@ -298,13 +297,15 @@
 
     });
 
-    //Submit editing
     $('#editsubmit').click(function() {
         var bOk = confirm("Are you sure to edit it?");
         if(bOk == true){
-            data.themeName = $('#edit-themeName').val();
-            data.themeDescription = $('#edit-themeDesciption').val();
-            data.themeEndDate = $('#edi-themeEndDate').val();
+
+            data = {
+                themeName: $('#edit-themeName').val(),
+                themeDescription: $('#edit-themeDesciption').val(),
+                themeEndDate: $('#edi-themeEndDate').val()
+            }
             $.post( "/admin/edit-theme", data)
                 .done(function(data) {
                     console.log('Theme edited...')
@@ -313,11 +314,11 @@
         $('#edit').hide();
         $('#delete').hide();
         $('#edit-form').hide();
+        $('#editsubmit').hide();
         $('#theme-output').hide();
         get_theme();  
     });
 
-    //add theme
     $('#add').click(function() {
         $('#addsubmit').show();
         $('#editsubmit').hide();
@@ -326,19 +327,20 @@
         $('#edit').hide();
         $('#delete').hide();
         $('#add-form').show()  
-        console.log(data);
         $('#add-form :input').val('');
     });
 
-    //Submit adding
     $('#addsubmit').click(function() {
         var bOk = confirm("Are you sure to add it?");
         if(bOk == true){
-            data.themeName = $('#add-themeName').val();
-            data.themeDescription = $('#add-themeDescription').val();
-            data.themeStartDate = $('#add-themeStartDate').val();
-            data.themeEndDate = $('#add-themeEndDate').val();
-            data.themeViewCount = $('#add-themeViewCount').val();
+
+            data = {
+                themeName: $('#add-themeName').val(),
+                themeDescription: $('#add-themeDescription').val(),
+                themeStartDate: $('#add-themeStartDate').val(),
+                themeEndDate: $('#add-themeEndDate').val(),
+                themeViewCount: $('#add-themeViewCount').val()
+            }
             console.log(add);
             $.post( "/admin/add-theme", data)
                 .done(function(data) {
