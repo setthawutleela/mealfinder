@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Meal Finder @KMUTT</title>
+    <link rel="icon" href="pic/logo.png">
+    <link href="https://fonts.googleapis.com/css?family=Arimo&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body class="managerestaurant">
+
+    <div class="clearfix container-fluid">
+        <div class="navBar">
+            <ul>
+                <div class="floatL">
+                    <li><a href="/admin">BACK</a></li>
+                </div>
+                <div class="floatR">
+                    <li><a href="/signout">SIGN OUT</a></li>
+                    <li>
+                        <p id='username'></p>
+                    </li>
+                </div>
+            </ul>
+        </div>
+    </div>
+
+    <h1>Restaurant management</h1>
+
+    <div class="clearfix container">
+        <div></div>
+        <div class='row'>
+            <div class="search col-3">
+                <input type="text" id="mySearch" placeholder="Search..">
+                <div id="search-op"></div>
+            </div>
+            <div class='col'>
+                <div id="restaurant-output">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Restaurant ID</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="output-restaurant_id" class="form-control" style="width: 90%;" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Restaurant name</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="output-restaurantName" class="form-control" style="width: 90%;" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Restaurant address</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="output-restaurantAddress" class="form-control" style="width: 90%;" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Restaurant phone</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="output-restaurantPhone" class="form-control" style="width: 90%;" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Open time weekday</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="output-openTimeWeekday" class="form-control" style="width: 90%;" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Open time weekend</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="output-openTimeWeekend" class="form-control" style="width: 90%;" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Close time</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="output-closeTime" class="form-control" style="width: 90%;" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="theme_id">Store type</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="output-storeType" class="form-control" style="width: 90%;" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="theme_id">Description</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="output-restaurantDes" class="form-control" style="width: 90%;" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="theme_id">View count</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="output-viewCount" class="form-control" style="width: 90%;" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="theme_id">Open type</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="output-open_ID" class="form-control" style="width: 90%;" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    
+                </div>
+
+                <button class='btn btn-primary' id='edit' style='margin-left: 40%'>Edit</button>
+                <button class='btn btn-danger' id='delete' style='margin-left: 2%'>Delete</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    var restaurants;
+    let data;
+
+    $('#delete').hide();
+    $('#edit').hide();
+    $('#editsubmit').hide();
+    $('#addsubmit').hide();
+    $('#add').show();
+    $('#edit-form').hide();
+    $('#restaurant-output').hide();
+    get_restaurant();
+
+    $.get('/check-session', (data, status)=> {
+        cookies = JSON.parse(data)
+        console.log(cookies)
+        $('#username').text(cookies.fullName)
+    })
+
+    function translateOpenID() {
+        if(data.open_ID == 1)
+            return "Every day";
+        else if(data.openID == 2)
+            return "Every day except Saturday and Sunday";
+        else{
+            return "Mai Bok";
+        }
+    };
+
+    function get_restaurant() {
+        $.get('/admin/get-restaurant', (data, status)=> {
+            restaurants = JSON.parse(data);
+            $('#search-op').text('')
+            var table = $('<table>').attr('id', 'theme-table');
+                table.css('border', '1px solid black');
+            var tbody = $('<tbody>')
+            for (i = 0; i < restaurants.length; i++) {
+                
+                var row = `<tr id='${i}'><td>${restaurants[i].restaurantName}</td></tr>`
+                tbody.append(row);
+            }
+            table.append(tbody)
+            $('#search-op').append(table);
+            console.log(restaurants);
+        });
+    }
+
+    $('#mySearch').keyup( function() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("mySearch");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("theme-table");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    })
+
+    $('#search-op').on('click', 'table tr', function() {
+        let idx = $(this).attr('id');
+        data = restaurants[idx];
+        $('#edit').show();
+        $('#delete').show();
+        $('#restaurant-output').show();
+        $('#editsubmit').hide();
+        $('#addsubmit').hide();
+        $('#edit-form').hide();
+        $('#add-form').hide();
+        
+        $("#output-restaurant_id").attr('value',`${data.restaurant_ID}`);
+        $("#output-restaurantName").attr('value',`${data.restaurantName}`);
+        $("#output-restaurantAddress").attr('value',`${data.restaurantAddress}`);
+        $("#output-restaurantPhone").attr('value',`${data.restaurantPhone}`);
+        $("#output-openTimeWeekday").attr('value',`${data.openTimeWeekday}`);
+        $("#output-openTimeWeekend").attr('value',`${data.openTimeWeekend}`);
+        $("#output-closeTime").attr('value',`${data.closeTime}`);
+        $("#output-storeType").attr('value',`${data.storeType}`);
+        $("#output-restaurantDes").attr('value',`${data.restaurantDes}`);
+        $("#output-viewCount").attr('value',`${data.viewCount}`);
+        $("#output-open_ID").attr('value',translateOpenID(data.open_ID));
+    }); 
+
+    $('#delete').click(function() {
+        var bOk = confirm("Are you sure to delete it?");
+        if(bOk == true){
+            $.post( "/admin/delete-theme", data)
+                .done(function(data) {
+                    let div = $('#restaurant-output');
+                    div.text('');
+                    $('#delete').hide();
+                    $('#edit').hide();
+                    get_theme();
+                });
+        }
+    })
+    //edit theme
+    $('#edit').click(function() {
+        $('#addsubmit').show();
+        $('#editsubmit').show();
+        $('#restaurant-output').show();
+        $('#edit-form').show();
+        $('#edit').hide();
+        $('#delete').hide();
+        $('#add-form').hide();
+        $("#edit-restaurant_id").attr('value',`${data.restaurant_ID}`);
+        $("#edit-restaurantName").attr('value',`${data.restaurantName}`);
+        $("#edit-restaurantAddress").attr('value',`${data.restaurantAddress}`);
+        $("#edit-restaurantPhone").attr('value',`${data.restaurantPhone}`);
+        $("#edit-openTimeWeekday").attr('value',`${data.openTimeWeekday}`);
+        $("#edit-openTimeWeekend").attr('value',`${data.openTimeWeekend}`);
+        $("#edit-closeTime").attr('value',`${data.closeTime}`);
+        $("#edit-storeType").attr('value',`${data.storeType}`);
+        $("#edit-restaurantDes").attr('value',`${data.restaurantDes}`);
+        $("#edit-viewCount").attr('value',`${data.viewCount}`);
+
+    });
+
+
+    $('#editsubmit').click(function() {
+        var bOk = confirm("Are you sure to edit it?");
+        if(bOk == true){
+            // data.themeName = $('#edit-themeName').val();
+            // data.themeDescription = $('#edit-themeDesciption').val();
+            // data.themeEndDate = $('#edi-themeEndDate').val();
+            $.post( "/admin/edit-theme", data)
+                .done(function(data) {
+                    console.log('Theme edited...')
+                });
+        }
+        $('#edit').hide();
+        $('#delete').hide();
+        $('#edit-form').hide();
+        $('#restaurant-output').hide();
+        get_restaurant();  
+    });
+
+
+</script>
+</html>

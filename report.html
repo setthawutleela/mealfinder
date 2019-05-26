@@ -7,9 +7,9 @@
     <title>Meal Finder @KMUTT</title>
     <link rel="icon" href="pic/logo.png">
     <link href="https://fonts.googleapis.com/css?family=Arimo&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
     <div class="clearfix">
@@ -42,7 +42,7 @@
                         <label class="control-label col">Description</label>
                         <div class="col">
                             <textarea class="form-control" placehpolder="Enter report description" name="reportDescription" rows="3"></textarea>
-                        </div>
+                        </div>      
                     </div>
                     <div class="form-group">
                         <label class="control-label col">Date</label>
@@ -52,11 +52,6 @@
                     </div>
                     <button type="submit" class="btn btn-success" style="margin-left: 4%;">Submit</button>
                 </form>
-                <!-- <form action="/report" method="POST">
-                    <input type="text" name="reportTitle" placeholder="Report Title" required autofocus><required><br>
-                    <textarea placeholder="Report Description" rows="4" cols="50" name="reportDescription"></textarea> <required><br>
-                    <input type="submit" value="Submit">
-                </form> -->
             </div>
         </div>
     </div>
@@ -64,7 +59,7 @@
 <script>
         $('.client').hide()
         $('.not-client').show()
-    
+
         $.get('/check-session', (data, status)=> {
             cookies = JSON.parse(data)
             console.log(cookies)

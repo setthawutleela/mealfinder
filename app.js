@@ -65,9 +65,14 @@ app.get('/customer/theme-view', (req, res) => {
     res.sendFile(__dirname+'/theme_view.html')
 });
 
+<<<<<<< HEAD
 app.get('/aboutUs', (req, res) => {
     res.sendFile(__dirname+'/aboutUs.html')
 
+=======
+app.get('/admin/manage-restaurant', (req, res) => {
+    res.sendFile(__dirname+'/managerestaurant.html')
+>>>>>>> 283f3950bcb25d89ac226a01cd3f39357bff9f1b
 });
 
 
@@ -254,6 +259,15 @@ app.post('/customer/get-themeRestaurant', (req, res) => {
         res.send(JSON.stringify(results))
     })
 });
+
+app.get('/admin/get-restaurant', (req, res) => {
+    let sql = `SELECT * FROM restaurant_info WHERE 1`;
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    })
+})
+
+
 
 const port = 3000;
 app.listen(port, () => {
