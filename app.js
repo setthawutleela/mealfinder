@@ -61,10 +61,6 @@ app.get('/admin/manage-report', (req, res) => {
     res.sendFile(__dirname+'/managereport.html')
 });
 
-app.get('/customer/report', (req, res) => {
-    res.sendFile(__dirname+'/report.html')
-});
-
 app.get('/customer/theme-view', (req, res) => {
     res.sendFile(__dirname+'/theme_view.html')
 });
@@ -79,6 +75,14 @@ app.get('/customer/blog', (req, res) => {
 
 app.get('/customer/add-blog', (req, res) => {
     res.sendFile(__dirname+'/blogAdd.html')
+});
+
+app.get('/customer/restaurant_info', (req, res) => {
+    res.sendFile(__dirname+'/restaurant_info.html')
+});
+
+app.get('/customer/report', (req, res) => {
+    res.sendFile(__dirname+'/report.html')
 });
 
 
@@ -331,6 +335,25 @@ app.post('/customer/get-themeRestaurant', (req, res) => {
     let sql = `SELECT  r.restaurantName
     FROM theme_register m, restaurant_info r, theme_info t
     WHERE t.themeName = '${req.body.themeName}' AND r.restaurant_ID = m.restaurant_ID AND t.theme_ID = m.theme_ID `;
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    })
+});
+
+app.post('/customer/restaurant_info', (req, res) =>{
+    let sql = `SELECT restaurant_ID, restaurantName, openTimeWeekday, closeTime FROM restaurant_info WHERE 1`
+    console.log(req.body);
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    })
+
+})
+
+app.post('/customer/get-mealInfo', (req, res) => {
+    console.log(req.body);
+    let sql = `SELECT  mealName, price
+    FROM meal_list
+    WHERE restaurant_ID = '${req.body.restaurant_ID}'`;
     let query = con.query(sql, (err, results) => {
         res.send(JSON.stringify(results))
     })

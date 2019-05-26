@@ -134,7 +134,7 @@ h1{
 .adminpage .management{
     margin: 5px;
     border: 1px solid #ccc;
-    width: 100px;
+    width: 14vw;
     border-radius: 4px;
   }
 
@@ -148,7 +148,7 @@ h1{
 }
 
 .adminpage .desc{
-    font-size: 10px;
+    font-size: 1.1vw;
     padding: 10px;
     text-align: center;
 }
