@@ -65,15 +65,11 @@ app.get('/customer/theme-view', (req, res) => {
     res.sendFile(__dirname+'/theme_view.html')
 });
 
-<<<<<<< HEAD
 app.get('/aboutUs', (req, res) => {
     res.sendFile(__dirname+'/aboutUs.html')
 
-=======
-app.get('/admin/manage-restaurant', (req, res) => {
-    res.sendFile(__dirname+'/managerestaurant.html')
->>>>>>> 283f3950bcb25d89ac226a01cd3f39357bff9f1b
 });
+
 
 
 app.post('/signin',(req, res) => {
@@ -91,13 +87,13 @@ app.post('/signin',(req, res) => {
             else {//There is an email
                 if(result[0].password == req.body.password) {//Login is valid
                     sess = req.session;
+                    sess.id = result[0].user_id;
                     sess.email = result[0].email;
                     sess.rank = result[0].rank;
                     sess.fullName = result[0].fullName;
                     if(result[0].rank == 'admin'){
                         res.redirect('/admin');
                     }
-            
                     else if(result[0].rank == 'client'){
                         res.redirect('/');
                     }
@@ -125,6 +121,7 @@ app.post('/signup',(req, res) => {
             console.log('sign up successfully...');
             const sess = req.session;
             sess.email = req.body.email;
+            sess.id = req.body.sqluser_id;
             sess.rank = req.body.rank;
             sess.fullName = req.body.fullName;
             res.redirect('/');
@@ -163,6 +160,7 @@ app.get('/signin',(req, res) => {
             else {//There is an email
                 if(result[0].password == req.body.password) {//Login is valid
                     sess = req.session;
+                    sess.id = result[0].user_id;
                     sess.email = result[0].email;
                     sess.rank = result[0].rank;
                     sess.fullName = result[0].fullName;
@@ -260,17 +258,75 @@ app.post('/customer/get-themeRestaurant', (req, res) => {
     })
 });
 
-app.get('/admin/get-restaurant', (req, res) => {
-    let sql = `SELECT * FROM restaurant_info WHERE 1`;
-    let query = con.query(sql, (err, results) => {
-        res.send(JSON.stringify(results))
-    })
-})
-
-
-
 const port = 3000;
 app.listen(port, () => {
     console.log(`Server started on port ${port}!`)
 });
 
+
+
+app.get('/customer/blog', (req, res) => {
+    res.sendFile(__dirname+'/blog.html')
+});
+
+app.post('/customer/get-blog', (req, res) =>{
+    let sql = `SELECT blogTopic FROM blog WHERE 1`
+    console.log(req.body)
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    })
+
+})
+
+app.post('/customer/get-blogDetail', (req, res) => {
+    console.log(req.body);
+    let sql = `SELECT  blogDescription
+    FROM blog
+    WHERE blogTopic = '${req.body.blogTopic}'`;
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    })
+});
+
+app.get('/blogAdd', (req, res) => {
+    res.sendFile(__dirname+'/blogAdd.html')
+});
+
+app.post('/blogAdd',(req, res) => {
+    console.log(req.body)
+    let sql = `INSERT INTO blog(user_ID,blogTopic, blogDescription, blogDate, blogTime)
+                VALUES('${sess.id}','${req.body.blogTopic}','${req.body.blogDescription}',
+                '${req.body.blogDate}','${req.body.blogTime}')`
+    let query = con.query(sql ,(err, result) => {
+        if(err){
+            console.log(err);
+            res.redirect('/blogAdd');
+        }
+        else{
+            res.redirect('/customer/blog');
+        }
+    });
+});
+
+app.get('/customer/restaurant_info', (req, res) => {
+    res.sendFile(__dirname+'/restaurant_info.html')
+});
+
+app.post('/customer/restaurant_info', (req, res) =>{
+    let sql = `SELECT restaurant_ID, restaurantName, openTimeWeekday, closeTime FROM restaurant_info WHERE 1`
+    console.log(req.body)
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    })
+
+})
+
+app.post('/customer/get-mealInfo', (req, res) => {
+    console.log(req.body);
+    let sql = `SELECT  mealName, price
+    FROM meal_list
+    WHERE restaurant_ID = '${req.body.restaurant_ID}'`;
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    })
+});

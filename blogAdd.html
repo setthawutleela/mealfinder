@@ -33,40 +33,25 @@
         </div>
     </div>
     <div class="clearfix">
-        <div class="rand">
-            <h1>#WhatDoYouWantToEatToday<br></h1>
-            <ul>
-                <li><a href="#randombtn" onclick="myFunction()">RANDOM</a></li>
-                <li><p id="randomans"></p></li>
-            </ul>
-        </div>
-    </div>
-
-    <div class='client'>
-        <p style="text-align: center; font-size: 100px;">Client is god!!.</p>
-        <a href="/customer/theme-view">THEME</a>
-        <a href='/customer/blog'> Blog </a>
-        <a href='/customer/restaurant_info'>Restaurant</a>
-    </div>
+            <div class="signup">
+                <h1>Add Blog<br></h1>
+                <div class="ipform">
+                    <form action="/blogAdd" method="POST">
+                        <input type="text" name="blogTopic" placeholder="Blog Topic" required autofocus><br>
+                        <textarea placeholder="Theme Description" rows="4" cols="50" name="blogDescription"></textarea> <required><br>
+                        <input type="date" name="blogDate" placeholder="Date"><br>
+                        <input type="time" name="blogTime" placeholder="Time"><br>
+                        <input type="submit" value="SIGN UP">
+                    </form>
+                </div>
+            </div>
+    
 </body>
 </html>
 
 <script>
     $('.client').hide()
     $('.not-client').show()
-
-    function myFunction() {
-        var x = Math.floor((Math.random() * 3) + 1);
-        if(x == 1){
-            document.getElementById("randomans").innerHTML = "Food1";
-        }
-        else if(x == 2){
-            document.getElementById("randomans").innerHTML = "Food2";
-        }
-        else{
-            document.getElementById("randomans").innerHTML = "Food3";
-        }
-    }
 
     $.get('/check-session', (data, status)=> {
         cookies = JSON.parse(data)
