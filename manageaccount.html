@@ -160,10 +160,11 @@
             console.log(data)
             $.post( "/admin/delete-account", data)
                 .done(function(data) {
+                    console.log(data);
+                    get_account();
                     $('#account-output').hide();
                     $('#delete').hide();
                     $('#edit').hide();
-                    get_account();
                 });
         }
     })

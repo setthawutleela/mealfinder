@@ -704,11 +704,12 @@
         if(bOk == true){
             $.post( "/admin/delete-restaurant", data)
                 .done(function(data) {
+                    $('#restaurant-output').hide();
+                    $('#delete').hide();
+                    $('#edit').hide();
+                    get_restaurant();
                 });
-                $('#restaurant-output').hide();
-                $('#delete').hide();
-                $('#edit').hide();
-                get_restaurant();
+            $("html, body").animate({ scrollTop: 0 }, "fast");
         }
     })
 
