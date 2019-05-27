@@ -130,6 +130,10 @@ app.get('/aboutus', (req, res) => {
     res.sendFile(__dirname+'/aboutus.html')
 });
 
+app.get('/news', (req, res) => {
+    res.sendFile(__dirname+'/news.html')
+});
+
 
 
 
