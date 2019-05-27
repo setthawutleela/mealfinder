@@ -157,6 +157,7 @@
     $('#delete').click(function() {
         var bOk = confirm("Are you sure to delete it?");
         if(bOk == true){
+            console.log(data)
             $.post( "/admin/delete-account", data)
                 .done(function(data) {
                     $('#account-output').hide();
