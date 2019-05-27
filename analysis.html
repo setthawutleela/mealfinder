@@ -34,8 +34,8 @@
         <div class ="row">
             <div class="col-3">
                 <div class="list-group">
-                    <button type="button" class="list-group-item list-group-item-action" value="1" active>Top 5 restaurants that have the most view count</button>
-                    <button type="button" class="list-group-item list-group-item-action" value="2">Dapibus ac facilisis in</button>
+                    <button type="button" class="list-group-item list-group-item-action" value="1">Top 3 longest duration Ad.</button>
+                    <button type="button" class="list-group-item list-group-item-action" value="2">Top 3 theme that have most restaurant</button>
                     <button type="button" class="list-group-item list-group-item-action" value="3">Morbi leo risus</button>
                     <button type="button" class="list-group-item list-group-item-action" value="4">Porta ac consectetur ac</button>
                     <button type="button" class="list-group-item list-group-item-action" value="5">Vestibulum at eros</button>
@@ -86,7 +86,7 @@
         var col = [];
         var tbody = $('<tbody>')
         var thead = $('<thead>')
-        for (var i = 0; i < 3; i++) {
+        for (var i = 0; i < analysis.length; i++) {
             for (var key in analysis[i]) {
                 if (col.indexOf(key) === -1) {
                     col.push(key);
@@ -96,7 +96,7 @@
         console.log(col);
         var row = `<tr><th scope="col">#</th><th scope="col">${col[0]}</th><th scope="col">${col[1]}</th></tr>`;
         thead.append(row);
-        for (var i = 0; i < 3; i++) {
+        for (var i = 0; i < analysis.length; i++) {
             var row = `<tr><th scope="row">${i+1}</th><td>${analysis[i][col[0]]}</td><td>${analysis[i][col[1]]}</td></tr>`;
             tbody.append(row);
         }
