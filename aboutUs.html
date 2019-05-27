@@ -10,15 +10,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
-<body class="main container">
+<body class="main">
     <div class="clearfix">
         <div class="navBar">
             <ul>
                 <div class="floatL">
                     <li><a href="/"><img src="pic/logo.png"></a></li>
-                    <li><a href="#aboutus">ABOUT US</a></li>
+                    <li><a href="/aboutUs">ABOUT US</a></li>
                     <li class='not-client'><a href="/signin">REPORT</a></li>
-                    <li class='client'><a href="/customer/report">REPORT</a></li>
+                    <li class='client'><a href="/report">REPORT</a></li>
                 </div>
                 <div class="floatR">
                     <li class='not-client'><a href="/signin">SIGN IN</a></li>
@@ -34,19 +34,16 @@
     </div>
     <div class="clearfix">
         <div class="rand">
-            <h1>#WhatDoYouWantToEatToday<br></h1>
-            <ul>
-                <li><a href="#randombtn" onclick="myFunction()">RANDOM</a></li>
-                <li><p id="randomans"></p></li>
-            </ul>
+            <h1>#About Us<br></h1>
+            <p>
+                Our project is to design and develop a web application that searches restaurants around King Mongkut’s University of Technology Thonburi (KMUTT) and randomly selects the restaurants and the meals for the client in 1 kilometer radius
+            </p>
         </div>
     </div>
 
     <div class='client'>
         <p style="text-align: center; font-size: 100px;">Client is god!!.</p>
         <a href="/customer/theme-view">THEME</a>
-        <a href="/customer/blog">BLOG</a>
-        <a href="/customer/restaurant_info">RESTAURANT</a>
     </div>
 </body>
 </html>
@@ -54,19 +51,6 @@
 <script>
     $('.client').hide()
     $('.not-client').show()
-
-    function myFunction() {
-        var x = Math.floor((Math.random() * 3) + 1);
-        if(x == 1){
-            document.getElementById("randomans").innerHTML = "Food1";
-        }
-        else if(x == 2){
-            document.getElementById("randomans").innerHTML = "Food2";
-        }
-        else{
-            document.getElementById("randomans").innerHTML = "Food3";
-        }
-    }
 
     $.get('/check-session', (data, status)=> {
         cookies = JSON.parse(data)
