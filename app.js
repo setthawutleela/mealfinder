@@ -524,3 +524,33 @@ app.post('/admin/add-news', (req, res) => {
         res.send(JSON.stringify(results))
     });
 });
+
+
+
+
+
+
+
+
+app.get('/admin/manage-blog', (req, res) => {
+    if(!req.session.email){
+        res.sendFile(__dirname+'/signin.html')
+    }
+    res.sendFile(__dirname+'/manageBlog.html')
+});
+
+app.get('/admin/get-blog', (req, res) => {
+    console.log(req.body)
+    let sql = `SELECT * FROM blog WHERE 1`;
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    })
+});
+
+app.post('/admin/delete-blog', (req, res) => {
+    let sql = `DELETE FROM blog WHERE blog_ID = ${req.body.blog_ID}`;
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    })
+});
+
