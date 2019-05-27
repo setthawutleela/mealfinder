@@ -7,59 +7,57 @@
     <title>Meal Finder @KMUTT</title>
     <link rel="icon" href="pic/logo.png">
     <link href="https://fonts.googleapis.com/css?family=Arimo&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
-<body class="main">
+<body class="container">
     <div class="clearfix">
-        <div class="navBar">
-            <ul>
-                <div class="floatL">
-                    <li><a href="/"><img src="pic/logo.png"></a></li>
-                    <li><a href="/aboutUs">ABOUT US</a></li>
-                    <li class='not-client'><a href="/signin">REPORT</a></li>
-                    <li class='client'><a href="/report">REPORT</a></li>
-                </div>
-                <div class="floatR">
-                    <li class='not-client'><a href="/signin">SIGN IN</a></li>
-                    <li class='not-client'><a href="/signup">SIGN UP</a></li>
-                    <li class='client'><a href="/signout">SIGN OUT</a></li>
-                    <li class='client'>
-                        <p id='username'></p>
-                    </li>
-                    <li class='client'><a href="#"><img class="picAccount" src="pic/user.svg" width="20px", height="20px"></a></li>
-                </div>
-            </ul>
+            <div class="navBar">
+                <ul>
+                    <div class="floatL">
+                        <li><a href="/"><img class="logo" src="pic/logo.png"></a></li>
+                        <li><a href="#aboutus">ABOUT US</a></li>
+                        <li><a href="/signin">REPORT</a></li>
+                    </div>
+                    <div class="floatR">
+                        <li class='not-client'><a href="/signin">SIGN IN</a></li>
+                        <li class='not-client'><a href="/signup">SIGN UP</a></li>
+                        <li class='client'><a href="/signout">SIGN OUT</a></li>
+                        <li class='client'><a href="#" id="username" style="margin-right: 8vw; opacity: 1;"></a></li>
+                    </div>
+                </ul>
+            </div>
         </div>
-    </div>
-    <div class="clearfix">
-        <div class="rand">
-            <h1>#About Us<br></h1>
-            <p>
-                Our project is to design and develop a web application that searches restaurants around King Mongkut’s University of Technology Thonburi (KMUTT) and randomly selects the restaurants and the meals for the client in 1 kilometer radius
-            </p>
+    <div class="clearfix container">
+        <h1>MEAL FINDER @KMUTT<br></h1>
+        <hr class="my-4" style="margin: 0 9vw;">
+        <p style="margin: 0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Created in 2019, Mealfinder@KMUTT is web application designed for students, by students, to help deal with the daily struggles of deciding where and what to eat and hopefully make the process a little more convenient. We know that university students are under a lot of stress due to academic pressure, so we want to make things slightly easier for our friends by eliminating the worries about finding a meal of choice. 
+                On our web application we allow our clients to search for restaurants/cafes near KMUTT according to their preference. We also have the option for randomizing your meal in case you are feeling extra adventurous with your dinner.</p>
+        <br><br>
+</blockquote>
+        <p style="text-align: center; opacity: 0.85; font-size: 0.7vw;"> SETTHAWUT LEELAWATTHANAPANIT(3466) | ABED BIN HOSSAIN(3477) | NAPHATTHORN KAYANTANAKORN(3482) | WATTANA YUBONBANDIDKUL(3491)</p>
+        <br><br>
+        <div style="text-align: center;">
+            <a href="/" class="btn btn-primary btn-lg active" role="button" aria-pressed="true" style="text-align: center;">HOMEPAGE</a>
         </div>
-    </div>
 
-    <div class='client'>
-        <p style="text-align: center; font-size: 100px;">Client is god!!.</p>
-        <a href="/customer/theme-view">THEME</a>
     </div>
 </body>
-</html>
-
 <script>
-    $('.client').hide()
-    $('.not-client').show()
+        $('.client').hide()
+        $('.not-client').show()
 
-    $.get('/check-session', (data, status)=> {
-        cookies = JSON.parse(data)
-        console.log(cookies)
-        if(cookies.email) {
-            $('.client').show()
-            $('.not-client').hide()
-        }
-        $('#username').text(cookies.fullName)
-    })
-
-</script>
+        $.get('/check-session', (data, status)=> {
+            cookies = JSON.parse(data)
+            console.log(cookies)
+            if(cookies.email) {
+                $('.client').show()
+                $('.not-client').hide()
+            }
+            $('#username').text(cookies.fullName)
+        })
+    
+    </script>
+</html>

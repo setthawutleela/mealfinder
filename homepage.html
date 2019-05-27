@@ -19,7 +19,7 @@
             <ul>
                 <div class="floatL">
                     <li><a href="/"><img src="pic/logo.png"></a></li>
-                    <li><a href="#aboutus">ABOUT US</a></li>
+                    <li><a href="/aboutus">ABOUT US</a></li>
                     <li class='not-client'><a href="/signin">REPORT</a></li>
                     <li class='client'><a href="/customer/report">REPORT</a></li>
                 </div>
@@ -33,7 +33,7 @@
         </div>
     </div>
     <div class="clearfix" id="homepage">
-        <div class="rand">
+        <div class="rand" style="margin: 0 8vw;">
             <h1>#WhatDoYouWantToEatToday<br></h1>
             <div style="align-content: center;">
                 <button type="button" onclick="randomFunc()" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" style="margin: 1vw; text-align: center;">
@@ -46,10 +46,43 @@
         </div>
     </div>
 
-    <div class='client'>
-        <a href="/customer/theme-view">THEME</a>
-        <a href="/customer/blog">BLOG</a>
-        <a href="/customer/restaurant">RESTAURANT</a>
+    <div class="client row" style="margin: 4vw; text-align: center;">
+        <div class="col-sm-3">
+            <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">THEME LIST</h5>
+                <p class="card-text"></p>
+                <a href="/customer/theme-view" class="btn btn-primary">CLICK</a>
+            </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">BLOG</h5>
+                <p class="card-text"></p>
+                <a href="/customer/blog" class="btn btn-primary">CLICK</a>
+            </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">RESTAURANT LIST</h5>
+                <p class="card-text"></p>
+                <a href="/customer/restaurant" class="btn btn-primary">CLICK</a>
+            </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">NEWS</h5>
+                <p class="card-text"></p>
+                <a href="#" class="btn btn-primary">CLICK</a>
+            </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

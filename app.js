@@ -126,9 +126,11 @@ app.get('/customer/report', (req, res) => {
     res.sendFile(__dirname+'/report.html')
 });
 
-app.get('/design', (req, res) => {
-    res.sendFile(__dirname+'/homepageabed.html')
+app.get('/aboutus', (req, res) => {
+    res.sendFile(__dirname+'/aboutus.html')
 });
+
+
 
 
 app.post('/signin',(req, res) => {
