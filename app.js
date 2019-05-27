@@ -463,8 +463,8 @@ app.post('/customer/get-blogDetail', (req, res) => {
     })
 });
 
-app.post('/customer/get-blog', (req, res) => {
-    let sql = `SELECT blogTopic FROM blog WHERE 1`;
+app.get('/customer/get-blog', (req, res) => {
+    let sql = `SELECT * FROM blog WHERE 1`;
     console.log(req.body)
     let query = con.query(sql, (err, results) => {
         res.send(JSON.stringify(results))
