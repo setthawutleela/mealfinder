@@ -199,19 +199,24 @@ app.post('/signup',(req, res) => {
     var ranking = 'client';
     let sql = `INSERT INTO user_info(email, fullName, password, rank, userPhone, birthDate)
                 VALUES('${req.body.email}', '${req.body.fullName}', '${req.body.password}',
-                '${ranking}', '${req.body.userPhone}', ${req.body.birthDate})`;
+                '${ranking}', '${req.body.userPhone}', '${req.body.birthDate}')`;
     let query = con.query(sql, (err, result) => {
         if(err){ //Query is not success
             console.log(err);
             res.redirect('/signup');
         }
         else{ //Query is success
+            console.log(result);
             console.log('sign up successfully...');
-            const sess = req.session;
-            sess.email = req.body.email;
-            sess.rank = req.body.rank;
-            sess.fullName = req.body.fullName;
-            res.redirect('/');
+            sql = `SELECT * FROM user_info WHERE email = '${req.body.email}'`;
+            con.query(sql, (err, result) => {
+                sess = req.session;
+                sess.user_id = result[0].user_id;
+                sess.email = result[0].email;
+                sess.rank = result[0].rank;
+                sess.fullName = result[0].fullName;
+                res.redirect('/');
+            });
         }
     });
 })
