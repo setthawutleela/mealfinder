@@ -120,7 +120,6 @@
             }
             table.append(tbody)
             $('#search-op').append(table);
-            console.log(users);
         });
     }
     get_account();
@@ -160,15 +159,13 @@
         if(bOk == true){
             $.post( "/admin/delete-account", data)
                 .done(function(data) {
+                    $('#account-output').hide();
+                    $('#delete').hide();
+                    $('#edit').hide();
+                    get_account();
                 });
-            $('#theme-output').hide();
-            $('#delete').hide();
-            $('#edit').hide();
-            get_theme();
         }
     })
-
-    	
 
 </script>
 </html>

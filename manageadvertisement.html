@@ -601,7 +601,7 @@
 </body>
 <script>
     var restaurants;
-    let data;
+    let data = null;
 
     $('#delete').hide();
     $('#edit').hide();
@@ -704,11 +704,11 @@
         if(bOk == true){
             $.post( "/admin/delete-restaurant", data)
                 .done(function(data) {
-                    get_restaurant();
-                    $('#restaurant-output').hide();
-                    $('#delete').hide();
-                    $('#edit').hide();
                 });
+                $('#restaurant-output').hide();
+                $('#delete').hide();
+                $('#edit').hide();
+                get_restaurant();
         }
     })
 
@@ -754,13 +754,13 @@
             $.post("/admin/edit-restaurant", data)
                 .done(function(data) {
                     console.log('Restaurant edited...')
+                    get_restaurant();
                 });
         }
         $('#edit').hide();
         $('#delete').hide();
         $('#edit-form').hide();
-        $('#restaurant-output').hide();
-        get_restaurant();  
+        $('#restaurant-output').hide();  
     });
 
     $('#add').click(function() {

@@ -73,13 +73,6 @@ app.get('/admin/manage-report', (req, res) => {
     res.sendFile(__dirname+'/managereport.html')
 });
 
-app.get('/customer/theme-view', (req, res) => {
-    if(!req.session.email){
-        res.sendFile(__dirname+'/signin.html')
-    }
-    res.sendFile(__dirname+'/theme_view.html')
-});
-
 app.get('/admin/manage-restaurant', (req, res) => {
     if(!req.session.email){
         res.sendFile(__dirname+'/signin.html')
@@ -87,11 +80,25 @@ app.get('/admin/manage-restaurant', (req, res) => {
     res.sendFile(__dirname+'/managerestaurant.html')
 });
 
+app.get('/admin/manage-advertisement', (req, res) => {
+    if(!req.session.email){
+        res.sendFile(__dirname+'/signin.html')
+    }
+    res.sendFile(__dirname+'/manageadvertisement.html')
+});
+
 app.get('/admin/analysis', (req, res) => {
     if(!req.session.email){
         res.sendFile(__dirname+'/signin.html')
     }
     res.sendFile(__dirname+'/analysis.html')
+});
+
+app.get('/customer/theme-view', (req, res) => {
+    if(!req.session.email){
+        res.sendFile(__dirname+'/signin.html')
+    }
+    res.sendFile(__dirname+'/theme_view.html')
 });
 
 app.get('/customer/blog', (req, res) => {
@@ -113,6 +120,13 @@ app.get('/customer/restaurant_info', (req, res) => {
         res.sendFile(__dirname+'/signin.html')
     }
     res.sendFile(__dirname+'/restaurant_info.html')
+});
+
+app.get('/customer/theme-view', (req, res) => {
+    if(!req.session.email){
+        res.sendFile(__dirname+'/signin.html')
+    }
+    res.sendFile(__dirname+'/theme_view.html')
 });
 
 app.get('/customer/report', (req, res) => {
@@ -202,18 +216,19 @@ app.get('/admin/get-account', (req, res) => {
 app.post('/admin/delete-account', (req, res) => {
     let sql = `DELETE FROM user_info WHERE user_id = ${req.body.user_id}`;
     let query = con.query(sql, (err, results) => {
-        res.redirect('/admin/manage-account');
+        res.send(JSON.stringify(results))
     })
 });
 
-app.get('/admin/get-theme', (req, res) => {
-    let sql = `SELECT * FROM theme_info WHERE 1`;
+app.get('/admin/get-advertisement', (req, res) => {
+    let sql = `SELECT * FROM advertisement_info a, company_info c WHERE a.company_ID = c.company_ID`;
     let query = con.query(sql, (err, results) => {
         res.send(JSON.stringify(results))
     })
 });
 
 app.post('/admin/delete-theme', (req, res) => {
+    console.log(req);
     let sql = `DELETE FROM theme_info WHERE theme_id = ${req.body.theme_id}`;
     let query = con.query(sql, (err, results) => {
         res.send(JSON.stringify(results))
@@ -246,7 +261,6 @@ app.get('/admin/get-restaurant', (req, res) => {
 })
 
 app.post('/admin/add-restaurant', (req, res) => {
-    console.log(req.body);
     let sql = `INSERT INTO restaurant_info(restaurantName, restaurantAddress, restaurantPhone,
                 openTimeWeekday, openTimeWeekend, closeTime, storeType, restaurantDes, open_ID)
                 VALUES('${req.body.restaurantName}', '${req.body.restaurantAddress}', '${req.body.restaurantPhone}',
@@ -276,6 +290,7 @@ app.post('/admin/edit-restaurant', (req, res) => {
 });
 
 app.post('/admin/delete-restaurant', (req, res) => {
+    console.log(req.body);
     let sql = `DELETE FROM restaurant_info WHERE restaurant_ID = ${req.body.restaurant_ID}`;
     let query = con.query(sql, (err, results) => {
         res.send(JSON.stringify(results))
@@ -295,40 +310,6 @@ app.post('/admin/delete-report', (req, res) => {
         res.send(JSON.stringify(results))
     })
 });
-
-app.post('/customer/add-blog',(req, res) => {
-    console.log(req.body)
-    let sql = `INSERT INTO blog(user_ID,blogTopic, blogDescription, blogDate, blogTime)
-                VALUES('${sess.id}','${req.body.blogTopic}','${req.body.blogDescription}',
-                '${req.body.blogDate}','${req.body.blogTime}')`
-    let query = con.query(sql ,(err, result) => {
-        if(err){
-            console.log(err);
-            res.redirect('/customer/add-blog');
-        }
-        else{
-            res.redirect('/customer/blog');
-        }
-    });
-});
-
-app.post('/customer/get-blogDetail', (req, res) => {
-    console.log(req.body);
-    let sql = `SELECT  blogDescription
-    FROM blog
-    WHERE blogTopic = '${req.body.blogTopic}'`;
-    let query = con.query(sql, (err, results) => {
-        res.send(JSON.stringify(results))
-    })
-});
-
-app.post('/customer/get-blog', (req, res) => {
-    let sql = `SELECT blogTopic FROM blog WHERE 1`;
-    console.log(req.body)
-    let query = con.query(sql, (err, results) => {
-        res.send(JSON.stringify(results))
-    })
-})
 
 app.post('/admin/analysis', (req, res) => {
     console.log(req.body);
@@ -390,11 +371,9 @@ app.post('/admin/analysis', (req, res) => {
     }
     
     else if(req.body.val == 12){
-        sql = `SELECT SUM(CASE WHEN 2019-year(birthDate) < 18 THEN 1 ELSE 0 END) AS Age_Under18,
-		SUM(CASE WHEN 2019-year(birthDate) BETWEEN 18 AND 24 THEN 1 ELSE 0 END) AS Age_18toAge_24,
-        SUM(CASE WHEN 2019-year(birthDate) BETWEEN 25 AND 34 THEN 1 ELSE 0 END) AS Age_25toAge_34,
-		SUM(CASE WHEN 2019-year(birthDate) >35 THEN 1 ELSE 0 END) AS Age_Above35
-        FROM user_info`;
+        sql = `SELECT p.PaymentWay AS 'Payment Method', COUNT(*) AS Count 
+        FROM payment p, payment_register pr, restaurant_info r 
+        WHERE p.Payment_ID = pr.payment_ID AND r.restaurant_ID = pr.restaurant_ID GROUP BY p.PaymentWay ORDER BY Count DESC`;
     }
 
 
@@ -418,6 +397,13 @@ app.post('/report',(req, res) => {
             res.redirect('/');
         }
     });
+});
+
+app.get('/admin/get-theme', (req, res) => {
+    let sql = `SELECT * FROM theme_info WHERE 1`;
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    })
 });
 
 app.get('/customer/get-themeName', (req, res) =>{
@@ -456,6 +442,40 @@ app.post('/customer/get-mealInfo', (req, res) => {
         res.send(JSON.stringify(results))
     })
 });
+
+app.post('/customer/add-blog',(req, res) => {
+    console.log(req.body)
+    let sql = `INSERT INTO blog(user_ID,blogTopic, blogDescription, blogDate, blogTime)
+                VALUES('${sess.id}','${req.body.blogTopic}','${req.body.blogDescription}',
+                '${req.body.blogDate}','${req.body.blogTime}')`
+    let query = con.query(sql ,(err, result) => {
+        if(err){
+            console.log(err);
+            res.redirect('/customer/add-blog');
+        }
+        else{
+            res.redirect('/customer/blog');
+        }
+    });
+});
+
+app.post('/customer/get-blogDetail', (req, res) => {
+    console.log(req.body);
+    let sql = `SELECT  blogDescription
+    FROM blog
+    WHERE blogTopic = '${req.body.blogTopic}'`;
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    })
+});
+
+app.post('/customer/get-blog', (req, res) => {
+    let sql = `SELECT blogTopic FROM blog WHERE 1`;
+    console.log(req.body)
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    })
+})
 
 // app.get('/admin/update', (req, res) => {
 //     let sql = `UPDATE restaurant_info SET storeType = '${req.body.storeType}' WHERE resturant_ID = ${req.body.restaurant_ID}`;
