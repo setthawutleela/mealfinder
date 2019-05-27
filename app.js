@@ -46,38 +46,72 @@ app.get('/signup', (req, res) => {
 });
 
 app.get('/admin', (req, res) => {
+    if(!req.session.email){
+        res.sendFile(__dirname+'/signin.html')
+    }
     res.sendFile(__dirname+'/adminpage.html')
 });
 
 app.get('/admin/manage-account', (req, res) => {
+    if(!req.session.email){
+        res.sendFile(__dirname+'/signin.html')
+    }
     res.sendFile(__dirname+'/manageaccount.html')
 });
 
 app.get('/admin/manage-theme', (req, res) => {
+    if(!req.session.email){
+        res.sendFile(__dirname+'/signin.html')
+    }
     res.sendFile(__dirname+'/managetheme.html')
 });
 
 app.get('/admin/manage-report', (req, res) => {
+    if(!req.session.email){
+        res.sendFile(__dirname+'/signin.html')
+    }
     res.sendFile(__dirname+'/managereport.html')
 });
 
 app.get('/customer/theme-view', (req, res) => {
+    if(!req.session.email){
+        res.sendFile(__dirname+'/signin.html')
+    }
     res.sendFile(__dirname+'/theme_view.html')
 });
 
 app.get('/admin/manage-restaurant', (req, res) => {
+    if(!req.session.email){
+        res.sendFile(__dirname+'/signin.html')
+    }
     res.sendFile(__dirname+'/managerestaurant.html')
 });
 
+app.get('/admin/analysis', (req, res) => {
+    if(!req.session.email){
+        res.sendFile(__dirname+'/signin.html')
+    }
+    res.sendFile(__dirname+'/analysis.html')
+});
+
 app.get('/customer/blog', (req, res) => {
+    if(!req.session.email){
+        res.sendFile(__dirname+'/signin.html')
+    }
     res.sendFile(__dirname+'/blog.html')
 });
 
 app.get('/customer/add-blog', (req, res) => {
+    if(!req.session.email){
+        res.sendFile(__dirname+'/signin.html')
+    }
     res.sendFile(__dirname+'/blogAdd.html')
 });
 
 app.get('/customer/restaurant_info', (req, res) => {
+    if(!req.session.email){
+        res.sendFile(__dirname+'/signin.html')
+    }
     res.sendFile(__dirname+'/restaurant_info.html')
 });
 
@@ -299,13 +333,30 @@ app.post('/customer/get-blogDetail', (req, res) => {
     })
 });
 
-app.post('/customer/get-blog', (req, res) =>{
+app.post('/customer/get-blog', (req, res) => {
     let sql = `SELECT blogTopic FROM blog WHERE 1`;
     console.log(req.body)
     let query = con.query(sql, (err, results) => {
         res.send(JSON.stringify(results))
     })
 })
+
+app.post('/admin/analysis', (req, res) => {
+    console.log(req.body);
+    let sql;
+    if(req.body.val == 1){
+        sql = `SELECT advertisingName AS 'Advertising Name',DATEDIFF(adEndDate, adStartDate) AS Days 
+        FROM advertising_info ORDER BY Days DESC LIMIT 3`;
+    }
+    else if(req.body.val == 2){
+    }
+
+    let query = con.query(sql, (err, results) => {
+        console.log(results)
+        res.send(JSON.stringify(results))
+    })
+
+});
 
 app.post('/report',(req, res) => {
     let sql = `INSERT INTO report(user_ID,reportTitle, reportDescription, reportDate)
