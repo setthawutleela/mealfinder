@@ -126,9 +126,14 @@ app.get('/customer/report', (req, res) => {
     res.sendFile(__dirname+'/report.html')
 });
 
+app.get('/design', (req, res) => {
+    res.sendFile(__dirname+'/homepageabed.html')
+});
+
 
 app.post('/signin',(req, res) => {
     console.log('Sign in requested...');
+    console.log(req.body);
     let sql = `SELECT * FROM user_info WHERE email = '${req.body.email}'`;
     let query = con.query(sql, (err, result) => {
         if(err){ //Query is not success
@@ -563,13 +568,6 @@ app.post('/admin/add-news', (req, res) => {
     });
 });
 
-
-
-
-
-
-
-
 app.get('/admin/manage-blog', (req, res) => {
     if(!req.session.email){
         res.sendFile(__dirname+'/signin.html')
@@ -590,5 +588,33 @@ app.post('/admin/delete-blog', (req, res) => {
     let query = con.query(sql, (err, results) => {
         res.send(JSON.stringify(results))
     })
+});
+
+//random Meal
+app.get('/randomMeal',(req,res) => {
+    var priceUnder = req.query.priceUnder;
+    console.log(priceUnder);
+    if(priceUnder == 0)
+    {
+        priceUnder = 500;
+    }
+    //basic
+    let sql = `SELECT mealName, restaurantName  FROM meal_list m, restaurant_info r WHERE m.restaurant_ID = r.restaurant_ID AND m.price < ${priceUnder}`;
+    console
+    let query = con.query(sql,(err, results)=>{
+        console.log(results);
+        if(!results)
+        {
+           // res.send(JSON.stringify(results[randomNum]));
+        }
+        else
+        {    
+            let randomNum = Math.floor((Math.random() * results.length) + 1);
+            console.log(randomNum);
+            res.send(JSON.stringify(results[randomNum]));
+        }
+    });
+   
+    
 });
 

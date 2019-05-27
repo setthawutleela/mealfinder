@@ -7,11 +7,14 @@
     <title>Meal Finder @KMUTT</title>
     <link rel="icon" href="pic/logo.png">
     <link href="https://fonts.googleapis.com/css?family=Arimo&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
-<body class="main container">
-    <div class="clearfix">
+<body class="container">
+    <div class="clearfix" style="background-color: white">
         <div class="navBar">
             <ul>
                 <div class="floatL">
@@ -24,26 +27,26 @@
                     <li class='not-client'><a href="/signin">SIGN IN</a></li>
                     <li class='not-client'><a href="/signup">SIGN UP</a></li>
                     <li class='client'><a href="/signout">SIGN OUT</a></li>
-                    <li class='client'>
-                        <p id='username'></p>
-                    </li>
-                    <li class='client'><a href="#"><img class="picAccount" src="pic/user.svg" width="20px", height="20px"></a></li>
+                    <li class='client'><a href="/signout" id="username" style="margin-right: 8vw; opacity: 1;"></a></li>
                 </div>
             </ul>
         </div>
     </div>
-    <div class="clearfix">
+    <div class="clearfix" id="homepage">
         <div class="rand">
             <h1>#WhatDoYouWantToEatToday<br></h1>
-            <ul>
-                <li><a href="#randombtn" onclick="myFunction()">RANDOM</a></li>
-                <li><p id="randomans"></p></li>
-            </ul>
+            <div style="align-content: center;">
+                <button type="button" onclick="randomFunc()" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" style="margin: 1vw; text-align: center;">
+                    Random
+                </button>
+                <input type="text" name=priceUnder id="randomans" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" readonly  style="width: 50%;">
+                <p>PRICE BELOW : &nbsp;</p>
+                <input type="text" name=priceUnder placeholder="0-499 BHT" value=0 id="priceUnder" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" style="width: 50%;">
+            </div>
         </div>
     </div>
 
     <div class='client'>
-        <p style="text-align: center; font-size: 100px;">Client is god!!.</p>
         <a href="/customer/theme-view">THEME</a>
         <a href="/customer/blog">BLOG</a>
         <a href="/customer/restaurant_info">RESTAURANT</a>
@@ -68,7 +71,7 @@
         }
     }
 
-    $.get('/check-session', (data, status)=> {
+    $.get('/check-session', (data, status) => {
         cookies = JSON.parse(data)
         console.log(cookies)
         if(cookies.email) {
@@ -76,6 +79,14 @@
             $('.not-client').hide()
         }
         $('#username').text(cookies.fullName)
-    })
+    });
+
+    function randomFunc() {
+        //var obj = {filter:$('#filterOn').val};
+        $.get(`/randomMeal?priceUnder=${$('#priceUnder').val()}`,(data,status) =>{
+           randomMeal = JSON.parse(data);
+           $('#randomans').attr('value',randomMeal.mealName+" @ "+ randomMeal.restaurantName);
+        });       
+    }
 
 </script>

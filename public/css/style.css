@@ -1,5 +1,5 @@
 body{
-    margin: 1% 0 3% 0;
+    margin: 0 0 2vw 0;
     font-family: 'Arimo', sans-serif;
     font-weight: bold;
     }
@@ -33,7 +33,13 @@ body{
     padding: 15.5px 25px;
     text-decoration: none;
     font-weight: bold;
+    opacity: 0.60;
   }
+
+.navBar li a:not(.picAccount):hover{
+    opacity: 1;
+    }
+
 
 .navBar li p{
     display: block;
@@ -57,6 +63,11 @@ body{
     margin: 0;
 }
 
+.ipform {
+    margin-left: 25%;
+    width: 50%;
+}
+
 .rand ul{
     text-align: center;
     list-style-type: none;
@@ -66,8 +77,8 @@ body{
     }
 
 h1{
-    font-size: 45px;
-    margin: 0;
+    font-size: 5.5vw;
+    margin: 5% 0 0 0;
     text-align: center;
     margin-bottom: 20px;
 }
@@ -85,31 +96,6 @@ h1{
     color: black;
 }
 
-.signin, .signup{
-    text-align: center;
-}
-
-.ipform input{
-    width: 20%;
-    border: 1px solid grey;
-    border-radius: 4px;
-    margin: 5px 0;
-    opacity: 0.85;
-    font-size: 12px;
-    line-height: 20px;
-    padding: 5px;
-    text-decoration: none;
-}
-
-.ipform input:hover{
-    opacity: 1;
-}
-
-.ipform input[type=submit]{
-    border: none;
-    background: #6A993E;
-    color: white;
-}
 
 .clientpage .nav{
     display: block;
