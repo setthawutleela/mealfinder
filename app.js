@@ -628,3 +628,16 @@ app.get('/randomMeal',(req,res) => {
     
 });
 
+app.get('/customer/get-news', (req, res) => {
+    let sql = `SELECT * FROM news WHERE 1`;
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    })
+})
+
+app.get('/customer/news', (req, res) => {
+    if(!req.session.email){
+        res.sendFile(__dirname+'/signin.html')
+    }
+    res.sendFile(__dirname+'/news.html')
+});
