@@ -96,7 +96,7 @@
 </body>
 <script>
     var users;
-    let data;
+    var data;
     $('#delete').hide()
     $('#account-output').hide()
 
@@ -158,13 +158,15 @@
     $('#delete').click(function() {
         var bOk = confirm("Are you sure to delete it?");
         if(bOk == true){
-            $.post( "/admin/delete-account", data)
-                .done(function(data) {
+            console.log(data.user_id)
+            $.post( "/admin/delete-account", data.user_id)
+                .done(function(res) {
+                    $('#account-output').hide();
+                    $('#delete').hide();
+                    $('#edit').hide();
+                    get_account();
                 });
-            $('#theme-output').hide();
-            $('#delete').hide();
-            $('#edit').hide();
-            get_theme();
+           
         }
     })
 

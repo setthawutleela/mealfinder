@@ -412,9 +412,24 @@ app.listen(port, () => {
 });
 
 
-app.get('/admin/resgister-ad', (req, res) => {
+app.get('/admin/manage-new', (req, res) => {
     if(!req.session.email){
         res.sendFile(__dirname+'/signin.html')
     }
-    res.sendFile(__dirname+'/Advertising.html')
+    res.sendFile(__dirname+'/managenew.html')
+});
+
+app.get('/admin/get-new', (req, res) => {
+    console.log(req.body)
+    let sql = `SELECT * FROM news WHERE 1`;
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    })
+});
+
+app.post('/admin/delete-new', (req, res) => {
+    let sql = `DELETE FROM news WHERE news_ID = ${req.body.news_ID}`;
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    })
 });
