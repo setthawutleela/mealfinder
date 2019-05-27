@@ -115,7 +115,7 @@ app.get('/customer/add-blog', (req, res) => {
     res.sendFile(__dirname+'/blogAdd.html')
 });
 
-app.get('/customer/restaurant_info', (req, res) => {
+app.get('/customer/restaurant', (req, res) => {
     if(!req.session.email){
         res.sendFile(__dirname+'/signin.html')
     }
@@ -418,8 +418,8 @@ app.post('/customer/get-themeRestaurant', (req, res) => {
     })
 });
 
-app.post('/customer/restaurant_info', (req, res) =>{
-    let sql = `SELECT restaurant_ID, restaurantName, openTimeWeekday, closeTime FROM restaurant_info WHERE 1`
+app.get('/customer/restaurant_info', (req, res) =>{
+    let sql = `SELECT * FROM restaurant_info WHERE 1`
     console.log(req.body);
     let query = con.query(sql, (err, results) => {
         res.send(JSON.stringify(results))
@@ -437,7 +437,7 @@ app.post('/customer/get-mealInfo', (req, res) => {
     })
 });
 
-app.post('/customer/add-blog',(req, res) => {
+/*app.post('/customer/add-blog',(req, res) => {
     console.log(req.body)
     let sql = `INSERT INTO blog(user_ID,blogTopic, blogDescription, blogDate, blogTime)
                 VALUES('${sess.id}','${req.body.blogTopic}','${req.body.blogDescription}',
@@ -451,7 +451,7 @@ app.post('/customer/add-blog',(req, res) => {
             res.redirect('/customer/blog');
         }
     });
-});
+});*/
 
 app.post('/customer/get-blogDetail', (req, res) => {
     console.log(req.body);
@@ -554,3 +554,13 @@ app.post('/admin/delete-blog', (req, res) => {
     })
 });
 
+app.post('/customer/add-blog', (req, res) => {
+    console.log('Hi',req.body,req.session);
+    let sql = `INSERT INTO blog(blogTopic, user_ID, blogDescription, blogDate, blogTime, blogViewCount)
+                VALUES('${req.body.blogName}', '${req.session.user_id}', '${req.body.blogDescription}', '${req.body.blogDate}',
+                '${req.body.blogTime}', 0)`;
+    console.log(sql)
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    });
+});
