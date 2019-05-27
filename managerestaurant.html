@@ -704,12 +704,13 @@
         if(bOk == true){
             $.post( "/admin/delete-restaurant", data)
                 .done(function(data) {
-                    get_restaurant();
                     $('#restaurant-output').hide();
                     $('#delete').hide();
                     $('#edit').hide();
+                    get_restaurant();
                 });
         }
+        $("html, body").animate({ scrollTop: 0 }, "fast");
     })
 
 
@@ -754,13 +755,13 @@
             $.post("/admin/edit-restaurant", data)
                 .done(function(data) {
                     console.log('Restaurant edited...')
+                    $('#edit').hide();
+                    $('#delete').hide();
+                    $('#edit-form').hide();
+                    $('#restaurant-output').hide();
+                    get_restaurant(); 
                 });
-        }
-        $('#edit').hide();
-        $('#delete').hide();
-        $('#edit-form').hide();
-        $('#restaurant-output').hide();
-        get_restaurant();  
+        } 
     });
 
     $('#add').click(function() {

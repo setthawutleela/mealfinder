@@ -122,13 +122,6 @@ app.get('/customer/restaurant_info', (req, res) => {
     res.sendFile(__dirname+'/restaurant_info.html')
 });
 
-app.get('/customer/theme-view', (req, res) => {
-    if(!req.session.email){
-        res.sendFile(__dirname+'/signin.html')
-    }
-    res.sendFile(__dirname+'/theme_view.html')
-});
-
 app.get('/customer/report', (req, res) => {
     res.sendFile(__dirname+'/report.html')
 });
@@ -149,7 +142,7 @@ app.post('/signin',(req, res) => {
             else {//There is an email
                 if(result[0].password == req.body.password) {//Login is valid
                     sess = req.session;
-                    sess.email = result[0].user_id;
+                    sess.user_id = result[0].user_id;
                     sess.email = result[0].email;
                     sess.rank = result[0].rank;
                     sess.fullName = result[0].fullName;
@@ -214,6 +207,7 @@ app.get('/admin/get-account', (req, res) => {
 })
 
 app.post('/admin/delete-account', (req, res) => {
+    console.log(req.body)
     let sql = `DELETE FROM user_info WHERE user_id = ${req.body.user_id}`;
     let query = con.query(sql, (err, results) => {
         res.send(JSON.stringify(results))
@@ -239,7 +233,7 @@ app.post('/admin/edit-theme', (req, res) => {
     console.log(req.body);
     let sql = `UPDATE theme_info SET themeName = '${req.body.themeName}' WHERE theme_id = '${req.body.theme_id}'`
     let query = con.query(sql, (err, results) => {
-        res.redirect('/manage-theme');
+        res.send(JSON.stringify(results))
     });
 });
 
@@ -249,7 +243,7 @@ app.post('/admin/add-theme', (req, res) => {
                 VALUES('${req.body.themeName}', '${req.body.themeDescription}', '${req.body.themeStartDate}',
                 '${req.body.themeEndDate}', '${req.body.themeViewCount}')`
     let query = con.query(sql, (err, results) => {
-        res.redirect('/admin/manage-theme');
+        res.send(JSON.stringify(results))
     });
 });
 
@@ -290,9 +284,9 @@ app.post('/admin/edit-restaurant', (req, res) => {
 });
 
 app.post('/admin/delete-restaurant', (req, res) => {
-    console.log(req.body);
     let sql = `DELETE FROM restaurant_info WHERE restaurant_ID = ${req.body.restaurant_ID}`;
     let query = con.query(sql, (err, results) => {
+        console.log(result);
         res.send(JSON.stringify(results))
     })
 });
