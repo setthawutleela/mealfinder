@@ -402,7 +402,7 @@ app.get('/admin/get-theme', (req, res) => {
 
 app.get('/customer/get-themeName', (req, res) =>{
     console.log(req.body);
-    let sql = `SELECT themeName FROM theme_info WHERE 1`;
+    let sql = `SELECT * FROM theme_info WHERE 1`;
     let query = con.query(sql, (err, results) =>{
         res.send(JSON.stringify(results))
     })
