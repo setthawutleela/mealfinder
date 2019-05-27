@@ -30,26 +30,26 @@
     </div>
 
     <div class ="clearfix container">
-        <h1>Analysis management</h1>
+        <h1>Analysis Report</h1>
         <div class ="row">
-            <div class="col-3">
-                <div class="list-group">
+            <div class="col-4">
+                <div class="list-group" style="font-size: 1vw;">
                     <button type="button" class="list-group-item list-group-item-action" value="1">Top 3 longest duration Ad.</button>
-                    <button type="button" class="list-group-item list-group-item-action" value="2">Top 3 theme that have most restaurant</button>
-                    <button type="button" class="list-group-item list-group-item-action" value="3">Morbi leo risus</button>
-                    <button type="button" class="list-group-item list-group-item-action" value="4">Porta ac consectetur ac</button>
-                    <button type="button" class="list-group-item list-group-item-action" value="5">Vestibulum at eros</button>
-                    <button type="button" class="list-group-item list-group-item-action" value="6">Vestibulum at eros</button>
-                    <button type="button" class="list-group-item list-group-item-action" value="7">Vestibulum at eros</button>
-                    <button type="button" class="list-group-item list-group-item-action" value="8">Vestibulum at eros</button>
-                    <button type="button" class="list-group-item list-group-item-action" value="9">Vestibulum at eros</button>
-                    <button type="button" class="list-group-item list-group-item-action" value="10">Vestibulum at eros</button>
-                    <button type="button" class="list-group-item list-group-item-action" value="11">Vestibulum at eros</button>
-                    <button type="button" class="list-group-item list-group-item-action" value="12">Vestibulum at eros</button>
-                    <button type="button" class="list-group-item list-group-item-action" value="13">Vestibulum at eros</button>
+                    <button type="button" class="list-group-item list-group-item-action" value="2">Top 3 themes that have most restaurant</button>
+                    <button type="button" class="list-group-item list-group-item-action" value="3">Number of ad. by category</button>
+                    <button type="button" class="list-group-item list-group-item-action" value="4">Top 3 restaurants view count</button>
+                    <button type="button" class="list-group-item list-group-item-action" value="5">Top 3 companies with the most contact</button>
+                    <button type="button" class="list-group-item list-group-item-action" value="6">Top 3 themes by view count</button>
+                    <button type="button" class="list-group-item list-group-item-action" value="7">Top 3 most view blogs</button>
+                    <button type="button" class="list-group-item list-group-item-action" value="8">Top 3 report time in hour</button>
+                    <button type="button" class="list-group-item list-group-item-action" value="9">Top 3 most report in month</button>
+                    <button type="button" class="list-group-item list-group-item-action" value="10">Top 3 restaurants that have the most people (according to history)</button>
+                    <button type="button" class="list-group-item list-group-item-action" value="11">Top 3 most people by month (according to history)</button>
+                    <button type="button" class="list-group-item list-group-item-action" value="12">How many restaurants use this payment</button>
                 </div>
             </div>
             <div class="col">
+                <div id="analysis-topic"></div>
                 <div id="analysis-output"></div>
             </div>
         </div>
@@ -59,6 +59,7 @@
     var analysis;
     let data;
     $('#analysis-output').hide();
+    $('#analysis-topic').hide();
 
     $.get('/check-session', (data, status)=> {
         cookies = JSON.parse(data)
@@ -74,14 +75,12 @@
         console.log(x);
         $.post("/admin/analysis", data).done(function(data) {
             analysis = JSON.parse(data);
-            if(isUndefined(analysis)){
-                $('#analysis-output').hide();
-            }
         }); 
         console.log(analysis);
 
         // EXTRACT VALUE FOR HTML HEADER.
         $('#analysis-output').text('')
+        $('#analysis-display').empty()
         var table = $('<table class="table">').attr('id', 'analysis-table');
         var col = [];
         var tbody = $('<tbody>')
@@ -103,10 +102,16 @@
         table.append(thead,tbody);
         $('#analysis-output').append(table);
         $('#analysis-output').show();
+        $("html, body").animate({ scrollTop: 0 }, "fast");
+        var topic = seeTopic(x);
+        var divtopic = $('#analysis-topic');
+        $('#analysis-topic').replaceWith($('divtopic').append(seeTopic(x)));
+        $('#analysis-topic').show();
     });
 
-    function isUndefined(x) {
-        return typeof x == "undefined";
+    function seeTopic(x) {
+        if (x == 1) return $('#analysis-topic').append(`<p>Top 3 longest duration Ad.</p>`);
+        else if (x == 2) return $('#analysis-topic').append(`<p>Top 3 themes that have most restaurant</p>`);
     }
 
 </script>

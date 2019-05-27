@@ -120,7 +120,6 @@
             }
             table.append(tbody)
             $('#search-op').append(table);
-            console.log(users);
         });
     }
     get_account();
@@ -158,19 +157,15 @@
     $('#delete').click(function() {
         var bOk = confirm("Are you sure to delete it?");
         if(bOk == true){
-            console.log(data.user_id)
-            $.post( "/admin/delete-account", data.user_id)
-                .done(function(res) {
+            $.post( "/admin/delete-account", data)
+                .done(function(data) {
                     $('#account-output').hide();
                     $('#delete').hide();
                     $('#edit').hide();
                     get_account();
                 });
-           
         }
     })
-
-    	
 
 </script>
 </html>

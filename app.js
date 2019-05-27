@@ -73,13 +73,6 @@ app.get('/admin/manage-report', (req, res) => {
     res.sendFile(__dirname+'/managereport.html')
 });
 
-app.get('/customer/theme-view', (req, res) => {
-    if(!req.session.email){
-        res.sendFile(__dirname+'/signin.html')
-    }
-    res.sendFile(__dirname+'/theme_view.html')
-});
-
 app.get('/admin/manage-restaurant', (req, res) => {
     if(!req.session.email){
         res.sendFile(__dirname+'/signin.html')
@@ -87,11 +80,25 @@ app.get('/admin/manage-restaurant', (req, res) => {
     res.sendFile(__dirname+'/managerestaurant.html')
 });
 
+app.get('/admin/manage-advertisement', (req, res) => {
+    if(!req.session.email){
+        res.sendFile(__dirname+'/signin.html')
+    }
+    res.sendFile(__dirname+'/manageadvertisement.html')
+});
+
 app.get('/admin/analysis', (req, res) => {
     if(!req.session.email){
         res.sendFile(__dirname+'/signin.html')
     }
     res.sendFile(__dirname+'/analysis.html')
+});
+
+app.get('/customer/theme-view', (req, res) => {
+    if(!req.session.email){
+        res.sendFile(__dirname+'/signin.html')
+    }
+    res.sendFile(__dirname+'/theme_view.html')
 });
 
 app.get('/customer/blog', (req, res) => {
@@ -115,6 +122,13 @@ app.get('/customer/restaurant_info', (req, res) => {
     res.sendFile(__dirname+'/restaurant_info.html')
 });
 
+app.get('/customer/theme-view', (req, res) => {
+    if(!req.session.email){
+        res.sendFile(__dirname+'/signin.html')
+    }
+    res.sendFile(__dirname+'/theme_view.html')
+});
+
 app.get('/customer/report', (req, res) => {
     res.sendFile(__dirname+'/report.html')
 });
@@ -129,21 +143,26 @@ app.post('/signin',(req, res) => {
             res.redirect('/signin');
         }
         else{ //Query is success
-            if(result[0].password == req.body.password) {//Login is valid
-                sess = req.session;
-                sess.user_id = result[0].user_id;
-                sess.email = result[0].email;
-                sess.rank = result[0].rank;
-                sess.fullName = result[0].fullName;
-                if(result[0].rank == 'admin'){
-                    res.redirect('/admin');
-                }
-                else if(result[0].rank == 'client'){
-                    res.redirect('/');
-                }
-            }
-            else { //Log in is invalid
+            if(result.length == 0) {//There is no email
                 res.redirect('/signin');
+            }
+            else {//There is an email
+                if(result[0].password == req.body.password) {//Login is valid
+                    sess = req.session;
+                    sess.email = result[0].user_id;
+                    sess.email = result[0].email;
+                    sess.rank = result[0].rank;
+                    sess.fullName = result[0].fullName;
+                    if(result[0].rank == 'admin'){
+                        res.redirect('/admin');
+                    }
+                    else if(result[0].rank == 'client'){
+                        res.redirect('/');
+                    }
+                }
+                else { //Log in is invalid
+                    res.redirect('/signin');
+                }
             }
         }
     })
@@ -197,18 +216,19 @@ app.get('/admin/get-account', (req, res) => {
 app.post('/admin/delete-account', (req, res) => {
     let sql = `DELETE FROM user_info WHERE user_id = ${req.body.user_id}`;
     let query = con.query(sql, (err, results) => {
-        res.redirect('/admin/manage-account');
+        res.send(JSON.stringify(results))
     })
 });
 
-app.get('/admin/get-theme', (req, res) => {
-    let sql = `SELECT * FROM theme_info WHERE 1`;
+app.get('/admin/get-advertisement', (req, res) => {
+    let sql = `SELECT * FROM advertisement_info a, company_info c WHERE a.company_ID = c.company_ID`;
     let query = con.query(sql, (err, results) => {
         res.send(JSON.stringify(results))
     })
 });
 
 app.post('/admin/delete-theme', (req, res) => {
+    console.log(req);
     let sql = `DELETE FROM theme_info WHERE theme_id = ${req.body.theme_id}`;
     let query = con.query(sql, (err, results) => {
         res.send(JSON.stringify(results))
@@ -241,7 +261,6 @@ app.get('/admin/get-restaurant', (req, res) => {
 })
 
 app.post('/admin/add-restaurant', (req, res) => {
-    console.log(req.body);
     let sql = `INSERT INTO restaurant_info(restaurantName, restaurantAddress, restaurantPhone,
                 openTimeWeekday, openTimeWeekend, closeTime, storeType, restaurantDes, open_ID)
                 VALUES('${req.body.restaurantName}', '${req.body.restaurantAddress}', '${req.body.restaurantPhone}',
@@ -271,6 +290,7 @@ app.post('/admin/edit-restaurant', (req, res) => {
 });
 
 app.post('/admin/delete-restaurant', (req, res) => {
+    console.log(req.body);
     let sql = `DELETE FROM restaurant_info WHERE restaurant_ID = ${req.body.restaurant_ID}`;
     let query = con.query(sql, (err, results) => {
         res.send(JSON.stringify(results))
@@ -291,52 +311,71 @@ app.post('/admin/delete-report', (req, res) => {
     })
 });
 
-app.post('/customer/add-blog',(req, res) => {
-    console.log(req.body)
-    let sql = `INSERT INTO blog(user_ID,blogTopic, blogDescription, blogDate, blogTime)
-                VALUES('${sess.id}','${req.body.blogTopic}','${req.body.blogDescription}',
-                '${req.body.blogDate}','${req.body.blogTime}')`
-    let query = con.query(sql ,(err, result) => {
-        if(err){
-            console.log(err);
-            res.redirect('/customer/add-blog');
-        }
-        else{
-            res.redirect('/customer/blog');
-        }
-    });
-});
-
-app.post('/customer/get-blogDetail', (req, res) => {
-    console.log(req.body);
-    let sql = `SELECT  blogDescription
-    FROM blog
-    WHERE blogTopic = '${req.body.blogTopic}'`;
-    let query = con.query(sql, (err, results) => {
-        res.send(JSON.stringify(results))
-    })
-});
-
-app.post('/customer/get-blog', (req, res) => {
-    let sql = `SELECT blogTopic FROM blog WHERE 1`;
-    console.log(req.body)
-    let query = con.query(sql, (err, results) => {
-        res.send(JSON.stringify(results))
-    })
-})
-
 app.post('/admin/analysis', (req, res) => {
     console.log(req.body);
     let sql;
     if(req.body.val == 1){
-        sql = `SELECT DATEDIFF(adEndDate, adStartDate) AS Date 
-        FROM advertising_info ORDER BY Date DESC LIMIT 3`;
+        sql = `SELECT advertisingName AS 'Advertising Name', DATEDIFF(adEndDate, adStartDate) AS Days 
+        FROM advertising_info ORDER BY Days DESC LIMIT 3`;
     }
     else if(req.body.val == 2){
-        sql =`SELECT t.themeName, COUNT(t.themeName) AS Restaurant_Count 
+        sql =`SELECT t.themeName AS 'Theme Name', COUNT(t.themeName) AS 'Restaurant Count' 
         FROM theme_info t, restaurant_info r, theme_register tr 
-        WHERE tr.theme_ID = t.theme_id AND tr.restaurant_ID = r.restaurant_ID GROUP BY t.themeName ORDER BY Restaurant_Count DESC LIMIT 3`;
+        WHERE tr.theme_ID = t.theme_id AND tr.restaurant_ID = r.restaurant_ID GROUP BY t.themeName ORDER BY 'Restaurant Count' DESC LIMIT 3`;
     }
+
+    else if(req.body.val == 3){
+        sql =`SELECT advertiseCategory AS 'Advertise Category', COUNT(advertiseCategory) AS Count 
+            FROM advertising_info GROUP BY advertiseCategory ORDER BY Count DESC`;
+    }
+
+    else if(req.body.val == 4){
+        sql =`SELECT restaurantName AS 'Restaurant Name', viewCount AS 'View Count'
+        FROM restaurant_info ORDER BY viewCount DESC LIMIT 3`;
+    }
+
+    else if(req.body.val == 5){
+        sql =`SELECT c.companyName AS 'Company Name', COUNT(a.company_ID) AS Count 
+        FROM advertising_info a, company_info c 
+        WHERE a.company_ID = c.company_ID GROUP BY c.companyName ORDER BY Count DESC LIMIT 3`;
+    }
+
+    else if(req.body.val == 6){
+        sql = `SELECT themeName AS 'Theme Name', themeViewCount AS 'View Count'
+        FROM theme_info ORDER BY themeViewCount DESC LIMIT 3`;
+    }
+
+    else if(req.body.val == 7){
+        sql = `SELECT blogTopic AS 'Blog Topic', blogViewCount AS 'View Count'
+        FROM blog ORDER BY blogViewCount DESC LIMIT 3`;
+    }
+
+    else if(req.body.val == 8){
+        sql = `SELECT hour(reportTime) AS 'Report Time', count(*) AS Count 
+        FROM report GROUP BY hour(reportTime) ORDER BY(Count) DESC LIMIT 3`;
+    }
+
+    else if(req.body.val == 9){
+        sql = `SELECT month(reportDate) AS Month, count(*) AS Count 
+        FROM report GROUP BY month(reportDate) ORDER BY(Count) DESC LIMIT 3`;
+    }
+
+    else if(req.body.val == 10){
+        sql = `SELECT r.restaurantName AS 'Restaurant Name', COUNT(u.restaurant_ID) AS Count
+        FROM user_history u, restaurant_info r WHERE u.restaurant_ID = r.restaurant_ID GROUP BY (u.restaurant_ID) ORDER BY (Count) DESC LIMIT 3`;
+    }
+
+    else if(req.body.val == 11){
+        sql = `SELECT month(historyDate) AS Month, COUNT(*) AS Count
+        FROM user_history GROUP BY(month(historyDate)) ORDER BY Count DESC LIMIT 3`;
+    }
+    
+    else if(req.body.val == 12){
+        sql = `SELECT p.PaymentWay AS 'Payment Method', COUNT(*) AS Count 
+        FROM payment p, payment_register pr, restaurant_info r 
+        WHERE p.Payment_ID = pr.payment_ID AND r.restaurant_ID = pr.restaurant_ID GROUP BY p.PaymentWay ORDER BY Count DESC`;
+    }
+
 
     let query = con.query(sql, (err, results) => {
         console.log(results)
@@ -358,6 +397,13 @@ app.post('/report',(req, res) => {
             res.redirect('/');
         }
     });
+});
+
+app.get('/admin/get-theme', (req, res) => {
+    let sql = `SELECT * FROM theme_info WHERE 1`;
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    })
 });
 
 app.get('/customer/get-themeName', (req, res) =>{
@@ -396,6 +442,40 @@ app.post('/customer/get-mealInfo', (req, res) => {
         res.send(JSON.stringify(results))
     })
 });
+
+app.post('/customer/add-blog',(req, res) => {
+    console.log(req.body)
+    let sql = `INSERT INTO blog(user_ID,blogTopic, blogDescription, blogDate, blogTime)
+                VALUES('${sess.id}','${req.body.blogTopic}','${req.body.blogDescription}',
+                '${req.body.blogDate}','${req.body.blogTime}')`
+    let query = con.query(sql ,(err, result) => {
+        if(err){
+            console.log(err);
+            res.redirect('/customer/add-blog');
+        }
+        else{
+            res.redirect('/customer/blog');
+        }
+    });
+});
+
+app.post('/customer/get-blogDetail', (req, res) => {
+    console.log(req.body);
+    let sql = `SELECT  blogDescription
+    FROM blog
+    WHERE blogTopic = '${req.body.blogTopic}'`;
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    })
+});
+
+app.post('/customer/get-blog', (req, res) => {
+    let sql = `SELECT blogTopic FROM blog WHERE 1`;
+    console.log(req.body)
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    })
+})
 
 // app.get('/admin/update', (req, res) => {
 //     let sql = `UPDATE restaurant_info SET storeType = '${req.body.storeType}' WHERE resturant_ID = ${req.body.restaurant_ID}`;

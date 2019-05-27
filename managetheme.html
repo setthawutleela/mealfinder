@@ -271,11 +271,11 @@
         if(bOk == true){
             $.post( "/admin/delete-theme", data)
                 .done(function(data) {
+                    $('#theme-output').hide();
+                    $('#delete').hide();
+                    $('#edit').hide();
+                    get_theme();
                 });
-            $('#theme-output').hide();
-            $('#delete').hide();
-            $('#edit').hide();
-            get_theme();
         }
     })
     //edit theme
@@ -309,14 +309,14 @@
             $.post( "/admin/edit-theme", data)
                 .done(function(data) {
                     console.log('Theme edited...')
+                    $('#edit').hide();
+                    $('#delete').hide();
+                    $('#edit-form').hide();
+                    $('#editsubmit').hide();
+                    $('#theme-output').hide();
+                    get_theme();  
                 });
         }
-        $('#edit').hide();
-        $('#delete').hide();
-        $('#edit-form').hide();
-        $('#editsubmit').hide();
-        $('#theme-output').hide();
-        get_theme();  
     });
 
     $('#add').click(function() {
