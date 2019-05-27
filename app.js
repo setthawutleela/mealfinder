@@ -123,6 +123,9 @@ app.get('/customer/restaurant', (req, res) => {
 });
 
 app.get('/customer/report', (req, res) => {
+    if(!req.session.email){
+        res.sendFile(__dirname+'/signin.html')
+    }
     res.sendFile(__dirname+'/report.html')
 });
 
@@ -131,6 +134,9 @@ app.get('/aboutus', (req, res) => {
 });
 
 app.get('/news', (req, res) => {
+    if(!req.session.email){
+        res.sendFile(__dirname+'/signin.html')
+    }
     res.sendFile(__dirname+'/news.html')
 });
 
@@ -428,8 +434,9 @@ app.post('/admin/analysis', (req, res) => {
 });
 
 app.post('/report',(req, res) => {
+    const sess = req.session;
     let sql = `INSERT INTO report(user_ID,reportTitle, reportDescription, reportDate)
-                VALUES('${sess.id}','${req.body.reportTitle}','${req.body.reportDescription}',
+                VALUES('${sess.user_id}','${req.body.reportTitle}','${req.body.reportDescription}',
                 '${req.body.reportDate}')`
     let query = con.query(sql ,(err, result) => {
         if(err){
