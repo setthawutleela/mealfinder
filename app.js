@@ -423,3 +423,11 @@ const port = 3000;
 app.listen(port, () => {
     console.log(`Server started on port ${port}!`)
 });
+
+
+app.get('/admin/resgister-ad', (req, res) => {
+    if(!req.session.email){
+        res.sendFile(__dirname+'/signin.html')
+    }
+    res.sendFile(__dirname+'/Advertising.html')
+});
