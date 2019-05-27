@@ -440,7 +440,7 @@ app.get('/admin/get-theme', (req, res) => {
 
 app.get('/customer/get-themeName', (req, res) =>{
     console.log(req.body);
-    let sql = `SELECT themeName FROM theme_info WHERE 1`;
+    let sql = `SELECT * FROM theme_info WHERE 1`;
     let query = con.query(sql, (err, results) =>{
         res.send(JSON.stringify(results))
     })
@@ -501,8 +501,8 @@ app.post('/customer/get-blogDetail', (req, res) => {
     })
 });
 
-app.post('/customer/get-blog', (req, res) => {
-    let sql = `SELECT blogTopic FROM blog WHERE 1`;
+app.get('/customer/get-blog', (req, res) => {
+    let sql = `SELECT * FROM blog WHERE 1`;
     console.log(req.body)
     let query = con.query(sql, (err, results) => {
         res.send(JSON.stringify(results))
@@ -545,3 +545,50 @@ app.post('/admin/delete-new', (req, res) => {
         res.send(JSON.stringify(results))
     })
 });
+
+app.post('/admin/edit-news', (req, res) => {
+    console.log(req.body);
+    let sql = `UPDATE news SET newsDescription = '${req.body.newsDescription}' WHERE news_ID = '${req.body.news_ID}'`
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    });
+});
+
+app.post('/admin/add-news', (req, res) => {
+    console.log(req.body);
+    let sql = `INSERT INTO news(newsDescription, newsDate, user_ID)
+                VALUES('${req.body.newsDescription}', '${req.body.newsDate}', '${req.session.user_id}')`
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    });
+});
+
+
+
+
+
+
+
+
+app.get('/admin/manage-blog', (req, res) => {
+    if(!req.session.email){
+        res.sendFile(__dirname+'/signin.html')
+    }
+    res.sendFile(__dirname+'/manageBlog.html')
+});
+
+app.get('/admin/get-blog', (req, res) => {
+    console.log(req.body)
+    let sql = `SELECT * FROM blog WHERE 1`;
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    })
+});
+
+app.post('/admin/delete-blog', (req, res) => {
+    let sql = `DELETE FROM blog WHERE blog_ID = ${req.body.blog_ID}`;
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    })
+});
+
