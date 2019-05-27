@@ -23,7 +23,7 @@ const con = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'mealfinder2'
+    database: 'mealfinder'
 });
 //Connect database
 con.connect((err) => {
@@ -57,19 +57,33 @@ app.get('/admin/manage-theme', (req, res) => {
     res.sendFile(__dirname+'/managetheme.html')
 });
 
-app.get('/report', (req, res) => {
-    res.sendFile(__dirname+'/report.html')
+app.get('/admin/manage-report', (req, res) => {
+    res.sendFile(__dirname+'/managereport.html')
 });
 
 app.get('/customer/theme-view', (req, res) => {
     res.sendFile(__dirname+'/theme_view.html')
 });
 
-app.get('/aboutUs', (req, res) => {
-    res.sendFile(__dirname+'/aboutUs.html')
-
+app.get('/admin/manage-restaurant', (req, res) => {
+    res.sendFile(__dirname+'/managerestaurant.html')
 });
 
+app.get('/customer/blog', (req, res) => {
+    res.sendFile(__dirname+'/blog.html')
+});
+
+app.get('/customer/add-blog', (req, res) => {
+    res.sendFile(__dirname+'/blogAdd.html')
+});
+
+app.get('/customer/restaurant_info', (req, res) => {
+    res.sendFile(__dirname+'/restaurant_info.html')
+});
+
+app.get('/customer/report', (req, res) => {
+    res.sendFile(__dirname+'/report.html')
+});
 
 
 app.post('/signin',(req, res) => {
@@ -87,7 +101,6 @@ app.post('/signin',(req, res) => {
             else {//There is an email
                 if(result[0].password == req.body.password) {//Login is valid
                     sess = req.session;
-                    sess.id = result[0].user_id;
                     sess.email = result[0].email;
                     sess.rank = result[0].rank;
                     sess.fullName = result[0].fullName;
@@ -106,29 +119,6 @@ app.post('/signin',(req, res) => {
     })
 });
 
-app.post('/signup',(req, res) => {
-    console.log('Sign up requested...');
-    var ranking = 'client';
-    let sql = `INSERT INTO user_info(email, fullName, password, rank, userPhone, birthDate)
-                VALUES('${req.body.email}', '${req.body.fullName}', '${req.body.password}',
-                '${ranking}', '${req.body.userPhone}', ${req.body.birthDate})`;
-    let query = con.query(sql, (err, result) => {
-        if(err){ //Query is not success
-            console.log(err);
-            res.redirect('/signup');
-        }
-        else{ //Query is success
-            console.log('sign up successfully...');
-            const sess = req.session;
-            sess.email = req.body.email;
-            sess.id = req.body.sqluser_id;
-            sess.rank = req.body.rank;
-            sess.fullName = req.body.fullName;
-            res.redirect('/');
-        }
-    });
-});
-
 app.get('/check-session', (req, res) => {
     sess = req.session
     res.send(JSON.stringify(sess))
@@ -145,7 +135,7 @@ app.get('/signout', (req, res) => {
     })
 })
 
-app.get('/signin',(req, res) => {
+app.post('/signin',(req, res) => {
     console.log('Sign in requested...');
     let sql = `SELECT * FROM user_info WHERE email = '${req.body.email}'`;
     let query = con.query(sql, (err, result) => {
@@ -189,7 +179,7 @@ app.get('/admin/get-account', (req, res) => {
 app.post('/admin/delete-account', (req, res) => {
     let sql = `DELETE FROM user_info WHERE user_id = ${req.body.user_id}`;
     let query = con.query(sql, (err, results) => {
-        res.send('success');
+        res.redirect('/admin/manage-account');
     })
 });
 
@@ -203,7 +193,7 @@ app.get('/admin/get-theme', (req, res) => {
 app.post('/admin/delete-theme', (req, res) => {
     let sql = `DELETE FROM theme_info WHERE theme_id = ${req.body.theme_id}`;
     let query = con.query(sql, (err, results) => {
-        res.send('success');
+        res.send(JSON.stringify(results))
     })
 });
 
@@ -211,7 +201,7 @@ app.post('/admin/edit-theme', (req, res) => {
     console.log(req.body);
     let sql = `UPDATE theme_info SET themeName = '${req.body.themeName}' WHERE theme_id = '${req.body.theme_id}'`
     let query = con.query(sql, (err, results) => {
-        res.send(JSON.stringify(results))
+        res.redirect('/manage-theme');
     });
 });
 
@@ -221,9 +211,101 @@ app.post('/admin/add-theme', (req, res) => {
                 VALUES('${req.body.themeName}', '${req.body.themeDescription}', '${req.body.themeStartDate}',
                 '${req.body.themeEndDate}', '${req.body.themeViewCount}')`
     let query = con.query(sql, (err, results) => {
+        res.redirect('/admin/manage-theme');
+    });
+});
+
+app.get('/admin/get-restaurant', (req, res) => {
+    let sql = `SELECT * FROM restaurant_info WHERE 1`;
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    })
+})
+
+app.post('/admin/add-restaurant', (req, res) => {
+    console.log(req.body);
+    let sql = `INSERT INTO restaurant_info(restaurantName, restaurantAddress, restaurantPhone,
+                openTimeWeekday, openTimeWeekend, closeTime, storeType, restaurantDes, open_ID)
+                VALUES('${req.body.restaurantName}', '${req.body.restaurantAddress}', '${req.body.restaurantPhone}',
+                '${req.body.openTimeWeekday}', '${req.body.openTimeWeekend}', '${req.body.closeTime}',
+                '${req.body.storeType}', '${req.body.restaurantDes}', '${req.body.open_ID}')`
+    let query = con.query(sql, (err, results) => {
         res.send(JSON.stringify(results))
     });
 });
+
+app.post('/admin/edit-restaurant', (req, res) => {
+    console.log(req.body);
+    let sql = `UPDATE restaurant_info SET restaurantName = '${req.body.restaurantName}',
+                                        restaurantAddress = '${req.body.restaurantAddress}',
+                                        restaurantPhone = '${req.body.restaurantPhone}',
+                                        openTimeWeekday = '${req.body.openTimeWeekday}',
+                                        openTimeWeekend = '${req.body.openTimeWeekend}',
+                                        closeTime = '${req.body.closeTime}',
+                                        storeType = '${req.body.storeType}',
+                                        restaurantDes = '${req.body.restaurantDes}',
+                                        open_ID = '${req.body.open_ID}'
+                WHERE restaurant_ID = '${req.body.restaurant_ID}'`;
+
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    });
+});
+
+app.post('/admin/delete-restaurant', (req, res) => {
+    let sql = `DELETE FROM restaurant_info WHERE restaurant_ID = ${req.body.restaurant_ID}`;
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    })
+});
+
+app.get('/admin/get-report', (req, res) => {
+    let sql = `SELECT * FROM report WHERE 1`;
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    })
+});
+
+app.post('/admin/delete-report', (req, res) => {
+    let sql = `DELETE FROM report WHERE report_ID = ${req.body.report_ID}`;
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    })
+});
+
+app.post('/customer/add-blog',(req, res) => {
+    console.log(req.body)
+    let sql = `INSERT INTO blog(user_ID,blogTopic, blogDescription, blogDate, blogTime)
+                VALUES('${sess.id}','${req.body.blogTopic}','${req.body.blogDescription}',
+                '${req.body.blogDate}','${req.body.blogTime}')`
+    let query = con.query(sql ,(err, result) => {
+        if(err){
+            console.log(err);
+            res.redirect('/customer/add-blog');
+        }
+        else{
+            res.redirect('/customer/blog');
+        }
+    });
+});
+
+app.post('/customer/get-blogDetail', (req, res) => {
+    console.log(req.body);
+    let sql = `SELECT  blogDescription
+    FROM blog
+    WHERE blogTopic = '${req.body.blogTopic}'`;
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    })
+});
+
+app.post('/customer/get-blog', (req, res) =>{
+    let sql = `SELECT blogTopic FROM blog WHERE 1`;
+    console.log(req.body)
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    })
+})
 
 app.post('/report',(req, res) => {
     let sql = `INSERT INTO report(user_ID,reportTitle, reportDescription, reportDate)
@@ -258,63 +340,9 @@ app.post('/customer/get-themeRestaurant', (req, res) => {
     })
 });
 
-const port = 3000;
-app.listen(port, () => {
-    console.log(`Server started on port ${port}!`)
-});
-
-
-
-app.get('/customer/blog', (req, res) => {
-    res.sendFile(__dirname+'/blog.html')
-});
-
-app.post('/customer/get-blog', (req, res) =>{
-    let sql = `SELECT blogTopic FROM blog WHERE 1`
-    console.log(req.body)
-    let query = con.query(sql, (err, results) => {
-        res.send(JSON.stringify(results))
-    })
-
-})
-
-app.post('/customer/get-blogDetail', (req, res) => {
-    console.log(req.body);
-    let sql = `SELECT  blogDescription
-    FROM blog
-    WHERE blogTopic = '${req.body.blogTopic}'`;
-    let query = con.query(sql, (err, results) => {
-        res.send(JSON.stringify(results))
-    })
-});
-
-app.get('/blogAdd', (req, res) => {
-    res.sendFile(__dirname+'/blogAdd.html')
-});
-
-app.post('/blogAdd',(req, res) => {
-    console.log(req.body)
-    let sql = `INSERT INTO blog(user_ID,blogTopic, blogDescription, blogDate, blogTime)
-                VALUES('${sess.id}','${req.body.blogTopic}','${req.body.blogDescription}',
-                '${req.body.blogDate}','${req.body.blogTime}')`
-    let query = con.query(sql ,(err, result) => {
-        if(err){
-            console.log(err);
-            res.redirect('/blogAdd');
-        }
-        else{
-            res.redirect('/customer/blog');
-        }
-    });
-});
-
-app.get('/customer/restaurant_info', (req, res) => {
-    res.sendFile(__dirname+'/restaurant_info.html')
-});
-
 app.post('/customer/restaurant_info', (req, res) =>{
     let sql = `SELECT restaurant_ID, restaurantName, openTimeWeekday, closeTime FROM restaurant_info WHERE 1`
-    console.log(req.body)
+    console.log(req.body);
     let query = con.query(sql, (err, results) => {
         res.send(JSON.stringify(results))
     })
@@ -329,4 +357,18 @@ app.post('/customer/get-mealInfo', (req, res) => {
     let query = con.query(sql, (err, results) => {
         res.send(JSON.stringify(results))
     })
+});
+
+// app.get('/admin/update', (req, res) => {
+//     let sql = `UPDATE restaurant_info SET storeType = '${req.body.storeType}' WHERE resturant_ID = ${req.body.restaurant_ID}`;
+//     let query = con.query(sql, (err, results) => {
+//         res.send(JSON.stringify(results))
+//     })
+// })
+
+
+
+const port = 3000;
+app.listen(port, () => {
+    console.log(`Server started on port ${port}!`)
 });

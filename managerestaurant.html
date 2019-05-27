@@ -37,6 +37,7 @@
             <div class="search col-3">
                 <input type="text" id="mySearch" placeholder="Search..">
                 <div id="search-op"></div>
+                <div style='text-align: left; margin-top: 0.5vw;'><button class='btn btn-dark' id='add'>Add</button></div>
             </div>
             <div class='col'>
                 <div id="restaurant-output">
@@ -118,10 +119,480 @@
                     </div>
                 </div>
 
-                <div>
-                    
+                <div id="edit-form">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Restaurant ID</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="edit-restaurant_id" class="form-control" style="width: 90%;" readonly>
+                        </div>
+                    </div>
+    
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Restaurant name</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="edit-restaurantName" class="form-control" style="width: 90%;">
+                        </div>
+                    </div>
+    
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Restaurant address</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="edit-restaurantAddress" class="form-control" style="width: 90%;">
+                        </div>
+                    </div>
+    
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Restaurant phone</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="edit-restaurantPhone" class="form-control" style="width: 90%;">
+                        </div>
+                    </div>
+    
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Open time weekday</label>
+                        <div class="col-sm-8">
+                            <select class="custom-select" id="edit-openTimeWeekday" style="width: 90%;">
+                                <option selected>Choose...</option>
+                                <option value="00:00:00">00:00</option>
+                                <option value="00:30:00">00:30</option>
+                                <option value="01:00:00">01:00</option>
+                                <option value="01:30:00">01:30</option>
+                                <option value="02:00:00">02:00</option>
+                                <option value="02:30:00">02:30</option>
+                                <option value="03:00:00">03:00</option>
+                                <option value="03:30:00">03:30</option>
+                                <option value="04:00:00">04:00</option>
+                                <option value="04:30:00">04:30</option>
+                                <option value="05:00:00">05:00</option>
+                                <option value="05:30:00">05:30</option>
+                                <option value="06:00:00">06:00</option>
+                                <option value="06:30:00">06:30</option>
+                                <option value="07:00:00">07:00</option>
+                                <option value="07:30:00">07:30</option>
+                                <option value="08:00:00">08:00</option>
+                                <option value="08:30:00">08:30</option>
+                                <option value="09:00:00">09:00</option>
+                                <option value="09:30:00">09:30</option>
+                                <option value="10:00:00">10:00</option>
+                                <option value="10:30:00">10:30</option>
+                                <option value="11:00:00">11:00</option>
+                                <option value="11:30:00">11:30</option>
+                                <option value="12:00:00">12:00</option>
+                                <option value="12:30:00">12:30</option>
+                                <option value="13:00:00">13:00</option>
+                                <option value="13:30:00">13:30</option>
+                                <option value="14:00:00">14:00</option>
+                                <option value="14:30:00">14:30</option>
+                                <option value="15:00:00">15:00</option>
+                                <option value="15:30:00">15:30</option>
+                                <option value="16:00:00">16:00</option>
+                                <option value="16:30:00">16:30</option>
+                                <option value="17:00:00">17:00</option>
+                                <option value="17:30:00">17:30</option>
+                                <option value="18:00:00">18:00</option>
+                                <option value="18:30:00">18:30</option>
+                                <option value="19:00:00">19:00</option>
+                                <option value="19:30:00">19:30</option>
+                                <option value="20:00:00">20:00</option>
+                                <option value="20:30:00">20:30</option>
+                                <option value="21:00:00">21:00</option>
+                                <option value="21:30:00">21:30</option>
+                                <option value="22:00:00">22:00</option>
+                                <option value="22:30:00">22:30</option>
+                                <option value="23:00:00">23:00</option>
+                                <option value="23:30:00">23:30</option>
+                            </select>
+                        </div>
+                    </div>
+    
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Open time weekend</label>
+                        <div class="col-sm-8">
+                            <select class="custom-select" id="edit-openTimeWeekend" style="width: 90%;">
+                                <option selected>Choose...</option>
+                                <option value="00:00:00">00:00</option>
+                                <option value="00:30:00">00:30</option>
+                                <option value="01:00:00">01:00</option>
+                                <option value="01:30:00">01:30</option>
+                                <option value="02:00:00">02:00</option>
+                                <option value="02:30:00">02:30</option>
+                                <option value="03:00:00">03:00</option>
+                                <option value="03:30:00">03:30</option>
+                                <option value="04:00:00">04:00</option>
+                                <option value="04:30:00">04:30</option>
+                                <option value="05:00:00">05:00</option>
+                                <option value="05:30:00">05:30</option>
+                                <option value="06:00:00">06:00</option>
+                                <option value="06:30:00">06:30</option>
+                                <option value="07:00:00">07:00</option>
+                                <option value="07:30:00">07:30</option>
+                                <option value="08:00:00">08:00</option>
+                                <option value="08:30:00">08:30</option>
+                                <option value="09:00:00">09:00</option>
+                                <option value="09:30:00">09:30</option>
+                                <option value="10:00:00">10:00</option>
+                                <option value="10:30:00">10:30</option>
+                                <option value="11:00:00">11:00</option>
+                                <option value="11:30:00">11:30</option>
+                                <option value="12:00:00">12:00</option>
+                                <option value="12:30:00">12:30</option>
+                                <option value="13:00:00">13:00</option>
+                                <option value="13:30:00">13:30</option>
+                                <option value="14:00:00">14:00</option>
+                                <option value="14:30:00">14:30</option>
+                                <option value="15:00:00">15:00</option>
+                                <option value="15:30:00">15:30</option>
+                                <option value="16:00:00">16:00</option>
+                                <option value="16:30:00">16:30</option>
+                                <option value="17:00:00">17:00</option>
+                                <option value="17:30:00">17:30</option>
+                                <option value="18:00:00">18:00</option>
+                                <option value="18:30:00">18:30</option>
+                                <option value="19:00:00">19:00</option>
+                                <option value="19:30:00">19:30</option>
+                                <option value="20:00:00">20:00</option>
+                                <option value="20:30:00">20:30</option>
+                                <option value="21:00:00">21:00</option>
+                                <option value="21:30:00">21:30</option>
+                                <option value="22:00:00">22:00</option>
+                                <option value="22:30:00">22:30</option>
+                                <option value="23:00:00">23:00</option>
+                                <option value="23:30:00">23:30</option>
+                            </select>
+                        </div>
+                    </div>
+    
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Close time</label>
+                        <div class="col-sm-8">
+                            <select class="custom-select" id="edit-closeTime" style="width: 90%;">
+                                <option selected>Choose...</option>
+                                <option value="00:00:00">00:00</option>
+                                <option value="00:30:00">00:30</option>
+                                <option value="01:00:00">01:00</option>
+                                <option value="01:30:00">01:30</option>
+                                <option value="02:00:00">02:00</option>
+                                <option value="02:30:00">02:30</option>
+                                <option value="03:00:00">03:00</option>
+                                <option value="03:30:00">03:30</option>
+                                <option value="04:00:00">04:00</option>
+                                <option value="04:30:00">04:30</option>
+                                <option value="05:00:00">05:00</option>
+                                <option value="05:30:00">05:30</option>
+                                <option value="06:00:00">06:00</option>
+                                <option value="06:30:00">06:30</option>
+                                <option value="07:00:00">07:00</option>
+                                <option value="07:30:00">07:30</option>
+                                <option value="08:00:00">08:00</option>
+                                <option value="08:30:00">08:30</option>
+                                <option value="09:00:00">09:00</option>
+                                <option value="09:30:00">09:30</option>
+                                <option value="10:00:00">10:00</option>
+                                <option value="10:30:00">10:30</option>
+                                <option value="11:00:00">11:00</option>
+                                <option value="11:30:00">11:30</option>
+                                <option value="12:00:00">12:00</option>
+                                <option value="12:30:00">12:30</option>
+                                <option value="13:00:00">13:00</option>
+                                <option value="13:30:00">13:30</option>
+                                <option value="14:00:00">14:00</option>
+                                <option value="14:30:00">14:30</option>
+                                <option value="15:00:00">15:00</option>
+                                <option value="15:30:00">15:30</option>
+                                <option value="16:00:00">16:00</option>
+                                <option value="16:30:00">16:30</option>
+                                <option value="17:00:00">17:00</option>
+                                <option value="17:30:00">17:30</option>
+                                <option value="18:00:00">18:00</option>
+                                <option value="18:30:00">18:30</option>
+                                <option value="19:00:00">19:00</option>
+                                <option value="19:30:00">19:30</option>
+                                <option value="20:00:00">20:00</option>
+                                <option value="20:30:00">20:30</option>
+                                <option value="21:00:00">21:00</option>
+                                <option value="21:30:00">21:30</option>
+                                <option value="22:00:00">22:00</option>
+                                <option value="22:30:00">22:30</option>
+                                <option value="23:00:00">23:00</option>
+                                <option value="23:30:00">23:30</option>
+                            </select>
+                        </div>
+                    </div>
+    
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="theme_id">Store type</label>
+                        <div class="col-sm-8">
+                            <select class="custom-select" id="edit-storeType" style="width: 90%;">
+                                <option selected>Choose...</option>
+                                <option value="Restaurant">Restaurant</option>
+                                <option value="Cafe">Cafe</option>
+                                <option value="Bakery">Bakery</option>
+                            </select>
+                        </div>
+                    </div>
+    
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="theme_id">Description</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="edit-restaurantDes" class="form-control" style="width: 90%;">
+                            </div>
+                        </div>
+    
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="theme_id">View count</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="edit-viewCount" class="form-control" style="width: 90%;" readonly>
+                            </div>
+                        </div>
+    
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="theme_id">Open type</label>
+                            <div class="col-sm-8">
+                                <select class="custom-select" id="edit-open_ID" style="width: 90%;">
+                                    <option selected>Choose...</option>
+                                    <option value="1">Every day</option>
+                                    <option value="2">Monday - Friday</option>
+                                    <option value="3">Monday - Saturday</option>
+                                    <option value="4">Saturday - Sunday</option>
+                                    <option value="5">Sunday only</option>
+                                    <option value="6">Sunday - Thrusday</option>
+                                    <option value="7">Tuesday - Friday</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class='btn btn-warning' id='editsubmit' style='margin-left: 50%'>Submit</button>
                 </div>
 
+                <div id="add-form">
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Restaurant name</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="add-restaurantName" class="form-control" style="width: 90%;">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Restaurant address</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="add-restaurantAddress" class="form-control" style="width: 90%;">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Restaurant phone</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="add-restaurantPhone" class="form-control" style="width: 90%;">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Open time weekday</label>
+                        <div class="col-sm-8">
+                            <select class="custom-select" id="add-openTimeWeekday" style="width: 90%;">
+                                <option selected>Choose...</option>
+                                <option value="00:00:00">00:00</option>
+                                <option value="00:30:00">00:30</option>
+                                <option value="01:00:00">01:00</option>
+                                <option value="01:30:00">01:30</option>
+                                <option value="02:00:00">02:00</option>
+                                <option value="02:30:00">02:30</option>
+                                <option value="03:00:00">03:00</option>
+                                <option value="03:30:00">03:30</option>
+                                <option value="04:00:00">04:00</option>
+                                <option value="04:30:00">04:30</option>
+                                <option value="05:00:00">05:00</option>
+                                <option value="05:30:00">05:30</option>
+                                <option value="06:00:00">06:00</option>
+                                <option value="06:30:00">06:30</option>
+                                <option value="07:00:00">07:00</option>
+                                <option value="07:30:00">07:30</option>
+                                <option value="08:00:00">08:00</option>
+                                <option value="08:30:00">08:30</option>
+                                <option value="09:00:00">09:00</option>
+                                <option value="09:30:00">09:30</option>
+                                <option value="10:00:00">10:00</option>
+                                <option value="10:30:00">10:30</option>
+                                <option value="11:00:00">11:00</option>
+                                <option value="11:30:00">11:30</option>
+                                <option value="12:00:00">12:00</option>
+                                <option value="12:30:00">12:30</option>
+                                <option value="13:00:00">13:00</option>
+                                <option value="13:30:00">13:30</option>
+                                <option value="14:00:00">14:00</option>
+                                <option value="14:30:00">14:30</option>
+                                <option value="15:00:00">15:00</option>
+                                <option value="15:30:00">15:30</option>
+                                <option value="16:00:00">16:00</option>
+                                <option value="16:30:00">16:30</option>
+                                <option value="17:00:00">17:00</option>
+                                <option value="17:30:00">17:30</option>
+                                <option value="18:00:00">18:00</option>
+                                <option value="18:30:00">18:30</option>
+                                <option value="19:00:00">19:00</option>
+                                <option value="19:30:00">19:30</option>
+                                <option value="20:00:00">20:00</option>
+                                <option value="20:30:00">20:30</option>
+                                <option value="21:00:00">21:00</option>
+                                <option value="21:30:00">21:30</option>
+                                <option value="22:00:00">22:00</option>
+                                <option value="22:30:00">22:30</option>
+                                <option value="23:00:00">23:00</option>
+                                <option value="23:30:00">23:30</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Open time weekend</label>
+                        <div class="col-sm-8">
+                            <select class="custom-select" id="add-openTimeWeekend" style="width: 90%;">
+                                <option selected>Choose...</option>
+                                <option value="00:00:00">00:00</option>
+                                <option value="00:30:00">00:30</option>
+                                <option value="01:00:00">01:00</option>
+                                <option value="01:30:00">01:30</option>
+                                <option value="02:00:00">02:00</option>
+                                <option value="02:30:00">02:30</option>
+                                <option value="03:00:00">03:00</option>
+                                <option value="03:30:00">03:30</option>
+                                <option value="04:00:00">04:00</option>
+                                <option value="04:30:00">04:30</option>
+                                <option value="05:00:00">05:00</option>
+                                <option value="05:30:00">05:30</option>
+                                <option value="06:00:00">06:00</option>
+                                <option value="06:30:00">06:30</option>
+                                <option value="07:00:00">07:00</option>
+                                <option value="07:30:00">07:30</option>
+                                <option value="08:00:00">08:00</option>
+                                <option value="08:30:00">08:30</option>
+                                <option value="09:00:00">09:00</option>
+                                <option value="09:30:00">09:30</option>
+                                <option value="10:00:00">10:00</option>
+                                <option value="10:30:00">10:30</option>
+                                <option value="11:00:00">11:00</option>
+                                <option value="11:30:00">11:30</option>
+                                <option value="12:00:00">12:00</option>
+                                <option value="12:30:00">12:30</option>
+                                <option value="13:00:00">13:00</option>
+                                <option value="13:30:00">13:30</option>
+                                <option value="14:00:00">14:00</option>
+                                <option value="14:30:00">14:30</option>
+                                <option value="15:00:00">15:00</option>
+                                <option value="15:30:00">15:30</option>
+                                <option value="16:00:00">16:00</option>
+                                <option value="16:30:00">16:30</option>
+                                <option value="17:00:00">17:00</option>
+                                <option value="17:30:00">17:30</option>
+                                <option value="18:00:00">18:00</option>
+                                <option value="18:30:00">18:30</option>
+                                <option value="19:00:00">19:00</option>
+                                <option value="19:30:00">19:30</option>
+                                <option value="20:00:00">20:00</option>
+                                <option value="20:30:00">20:30</option>
+                                <option value="21:00:00">21:00</option>
+                                <option value="21:30:00">21:30</option>
+                                <option value="22:00:00">22:00</option>
+                                <option value="22:30:00">22:30</option>
+                                <option value="23:00:00">23:00</option>
+                                <option value="23:30:00">23:30</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Close time</label>
+                        <div class="col-sm-8">
+                            <select class="custom-select" id="add-closeTime" style="width: 90%;">
+                                <option selected>Choose...</option>
+                                <option value="00:00:00">00:00</option>
+                                <option value="00:30:00">00:30</option>
+                                <option value="01:00:00">01:00</option>
+                                <option value="01:30:00">01:30</option>
+                                <option value="02:00:00">02:00</option>
+                                <option value="02:30:00">02:30</option>
+                                <option value="03:00:00">03:00</option>
+                                <option value="03:30:00">03:30</option>
+                                <option value="04:00:00">04:00</option>
+                                <option value="04:30:00">04:30</option>
+                                <option value="05:00:00">05:00</option>
+                                <option value="05:30:00">05:30</option>
+                                <option value="06:00:00">06:00</option>
+                                <option value="06:30:00">06:30</option>
+                                <option value="07:00:00">07:00</option>
+                                <option value="07:30:00">07:30</option>
+                                <option value="08:00:00">08:00</option>
+                                <option value="08:30:00">08:30</option>
+                                <option value="09:00:00">09:00</option>
+                                <option value="09:30:00">09:30</option>
+                                <option value="10:00:00">10:00</option>
+                                <option value="10:30:00">10:30</option>
+                                <option value="11:00:00">11:00</option>
+                                <option value="11:30:00">11:30</option>
+                                <option value="12:00:00">12:00</option>
+                                <option value="12:30:00">12:30</option>
+                                <option value="13:00:00">13:00</option>
+                                <option value="13:30:00">13:30</option>
+                                <option value="14:00:00">14:00</option>
+                                <option value="14:30:00">14:30</option>
+                                <option value="15:00:00">15:00</option>
+                                <option value="15:30:00">15:30</option>
+                                <option value="16:00:00">16:00</option>
+                                <option value="16:30:00">16:30</option>
+                                <option value="17:00:00">17:00</option>
+                                <option value="17:30:00">17:30</option>
+                                <option value="18:00:00">18:00</option>
+                                <option value="18:30:00">18:30</option>
+                                <option value="19:00:00">19:00</option>
+                                <option value="19:30:00">19:30</option>
+                                <option value="20:00:00">20:00</option>
+                                <option value="20:30:00">20:30</option>
+                                <option value="21:00:00">21:00</option>
+                                <option value="21:30:00">21:30</option>
+                                <option value="22:00:00">22:00</option>
+                                <option value="22:30:00">22:30</option>
+                                <option value="23:00:00">23:00</option>
+                                <option value="23:30:00">23:30</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="theme_id">Store type</label>
+                        <div class="col-sm-8">
+                            <select class="custom-select" id="add-storeType" style="width: 90%;">
+                                <option selected>Choose...</option>
+                                <option value="Restaurant">Restaurant</option>
+                                <option value="Cafe">Cafe</option>
+                                <option value="Bakery">Bakery</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="theme_id">Description</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="add-restaurantDes" class="form-control" style="width: 90%;">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="theme_id">Open type</label>
+                        <div class="col-sm-8">
+                            <select class="custom-select" id="add-open_ID" style="width: 90%;">
+                                <option selected>Choose...</option>
+                                <option value="1">Every day</option>
+                                <option value="2">Monday - Friday</option>
+                                <option value="3">Monday - Saturday</option>
+                                <option value="4">Saturday - Sunday</option>
+                                <option value="5">Sunday only</option>
+                                <option value="6">Sunday - Thrusday</option>
+                                <option value="7">Tuesday - Friday</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <button class='btn btn-warning' id='addsubmit' style='margin-left: 50%'>Submit</button>
                 <button class='btn btn-primary' id='edit' style='margin-left: 40%'>Edit</button>
                 <button class='btn btn-danger' id='delete' style='margin-left: 2%'>Delete</button>
             </div>
@@ -130,13 +601,14 @@
 </body>
 <script>
     var restaurants;
-    let data;
+    let data = null;
 
     $('#delete').hide();
     $('#edit').hide();
     $('#editsubmit').hide();
     $('#addsubmit').hide();
     $('#add').show();
+    $('#add-form').hide();
     $('#edit-form').hide();
     $('#restaurant-output').hide();
     get_restaurant();
@@ -150,10 +622,24 @@
     function translateOpenID() {
         if(data.open_ID == 1)
             return "Every day";
-        else if(data.openID == 2)
-            return "Every day except Saturday and Sunday";
-        else{
-            return "Mai Bok";
+        else if(data.open_ID == 2)
+            return "Monday - Friday";
+        else if(data.open_ID == 3){
+            return "Monday - Saturday";
+        }
+        else if(data.open_ID == 4){
+            return "Saturday - Sunday";
+        }
+        else if(data.open_ID == 5){
+            return "Sunday only";
+        }
+
+        else if(data.open_ID == 6){
+            return "Sunday - Thrusday";
+        }
+
+        else if(data.open_ID == 7){
+            return "Tuesday - Friday";
         }
     };
 
@@ -161,7 +647,7 @@
         $.get('/admin/get-restaurant', (data, status)=> {
             restaurants = JSON.parse(data);
             $('#search-op').text('')
-            var table = $('<table>').attr('id', 'theme-table');
+            var table = $('<table>').attr('id', 'restaurant-table');
                 table.css('border', '1px solid black');
             var tbody = $('<tbody>')
             for (i = 0; i < restaurants.length; i++) {
@@ -171,7 +657,6 @@
             }
             table.append(tbody)
             $('#search-op').append(table);
-            console.log(restaurants);
         });
     }
 
@@ -179,7 +664,7 @@
         var input, filter, ul, li, a, i;
         input = document.getElementById("mySearch");
         filter = input.value.toUpperCase();
-        table = document.getElementById("theme-table");
+        table = document.getElementById("restaurant-table");
         tr = table.getElementsByTagName("tr");
         for (i = 0; i < tr.length; i++) {
             td = tr[i].getElementsByTagName("td")[0];
@@ -196,12 +681,11 @@
         data = restaurants[idx];
         $('#edit').show();
         $('#delete').show();
-        $('#restaurant-output').show();
+        $('#restaurant-output').show()
         $('#editsubmit').hide();
         $('#addsubmit').hide();
         $('#edit-form').hide();
         $('#add-form').hide();
-        
         $("#output-restaurant_id").attr('value',`${data.restaurant_ID}`);
         $("#output-restaurantName").attr('value',`${data.restaurantName}`);
         $("#output-restaurantAddress").attr('value',`${data.restaurantAddress}`);
@@ -218,21 +702,21 @@
     $('#delete').click(function() {
         var bOk = confirm("Are you sure to delete it?");
         if(bOk == true){
-            $.post( "/admin/delete-theme", data)
+            $.post( "/admin/delete-restaurant", data)
                 .done(function(data) {
-                    let div = $('#restaurant-output');
-                    div.text('');
-                    $('#delete').hide();
-                    $('#edit').hide();
-                    get_theme();
                 });
+                $('#restaurant-output').hide();
+                $('#delete').hide();
+                $('#edit').hide();
+                get_restaurant();
         }
     })
-    //edit theme
+
+
     $('#edit').click(function() {
-        $('#addsubmit').show();
+        $('#addsubmit').hide();
         $('#editsubmit').show();
-        $('#restaurant-output').show();
+        $('#restaurant-output').hide();
         $('#edit-form').show();
         $('#edit').hide();
         $('#delete').hide();
@@ -241,12 +725,13 @@
         $("#edit-restaurantName").attr('value',`${data.restaurantName}`);
         $("#edit-restaurantAddress").attr('value',`${data.restaurantAddress}`);
         $("#edit-restaurantPhone").attr('value',`${data.restaurantPhone}`);
-        $("#edit-openTimeWeekday").attr('value',`${data.openTimeWeekday}`);
-        $("#edit-openTimeWeekend").attr('value',`${data.openTimeWeekend}`);
-        $("#edit-closeTime").attr('value',`${data.closeTime}`);
-        $("#edit-storeType").attr('value',`${data.storeType}`);
+        $("#edit-openTimeWeekday").val(`${data.openTimeWeekday}`);
+        $("#edit-openTimeWeekend").val(`${data.openTimeWeekend}`);
+        $("#edit-closeTime").val(`${data.closeTime}`);
+        $("#edit-storeType").val(`${data.storeType}`);
         $("#edit-restaurantDes").attr('value',`${data.restaurantDes}`);
         $("#edit-viewCount").attr('value',`${data.viewCount}`);
+        $("#edit-open_ID").val(`${data.open_ID}`);
 
     });
 
@@ -254,12 +739,21 @@
     $('#editsubmit').click(function() {
         var bOk = confirm("Are you sure to edit it?");
         if(bOk == true){
-            // data.themeName = $('#edit-themeName').val();
-            // data.themeDescription = $('#edit-themeDesciption').val();
-            // data.themeEndDate = $('#edi-themeEndDate').val();
-            $.post( "/admin/edit-theme", data)
+
+            data = {
+                restaurantName: $('#edit-restaurantName').val(),
+                restaurantAddress: $('#edit-restaurantAddress').val(),
+                restaurantPhone: $('#edit-restaurantPhone').val(),
+                openTimeWeekday: $('#edit-restaurantPhone').val(),
+                openTimeWeekend: $('#edit-openTimeWeekend').val(),
+                closeTime: $('#edit-closeTime').val(),
+                storeType: $('#edit-storeType').val(),
+                restaurantDes: $('#edit-restaurantDes').val(),
+                open_ID: $('#edit-open_ID').val()
+            }
+            $.post("/admin/edit-restaurant", data)
                 .done(function(data) {
-                    console.log('Theme edited...')
+                    console.log('Restaurant edited...')
                 });
         }
         $('#edit').hide();
@@ -269,6 +763,40 @@
         get_restaurant();  
     });
 
+    $('#add').click(function() {
+        $('#addsubmit').show();
+        $('#editsubmit').hide();
+        $('#restaurant-output').hide();
+        $('#edit-form').hide();
+        $('#edit').hide();
+        $('#delete').hide();
+        $('#add-form').show()  
+        $('#add-form :input').val('');
+    });
+
+    $('#addsubmit').click(function() {
+        var bOk = confirm("Are you sure to add it?");   
+        if(bOk == true){
+
+            data = {
+                restaurantName: $('#add-restaurantName').val(),
+                restaurantAddress: $('#add-restaurantAddress').val(),
+                restaurantPhone: $('#add-restaurantPhone').val(),
+                openTimeWeekday: $('#add-openTimeWeekday').val(),
+                openTimeWeekend: $('#add-openTimeWeekend').val(),
+                closeTime: $('#add-closeTime').val(),
+                storeType: $('#add-storeType').val(),
+                restaurantDes: $('#add-restaurantDes').val(),
+                open_ID: $('#add-open_ID').val()
+            }
+            $.post( "/admin/add-restaurant", data)
+                .done(function(data) {
+                });
+        }
+        $('#add-form').hide();
+        $('#addsubmit').hide();
+        get_restaurant();  
+    });
 
 </script>
 </html>
