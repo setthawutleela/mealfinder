@@ -507,3 +507,20 @@ app.post('/admin/delete-new', (req, res) => {
         res.send(JSON.stringify(results))
     })
 });
+
+app.post('/admin/edit-news', (req, res) => {
+    console.log(req.body);
+    let sql = `UPDATE news SET newsDescription = '${req.body.newsDescription}' WHERE news_ID = '${req.body.news_ID}'`
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    });
+});
+
+app.post('/admin/add-news', (req, res) => {
+    console.log(req.body);
+    let sql = `INSERT INTO news(newsDescription, newsDate, user_ID)
+                VALUES('${req.body.newsDescription}', '${req.body.newsDate}', '${req.session.user_id}')`
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    });
+});

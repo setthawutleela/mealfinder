@@ -276,7 +276,7 @@
             $('#theme-output').hide();
             $('#delete').hide();
             $('#edit').hide();
-            get_theme();
+            get_new();
         }
     })
     //edit theme
@@ -288,28 +288,23 @@
         $('#edit').hide();
         $('#delete').hide();
         $('#add-form').hide();
-        $("#edit-theme_id").attr('value',`${data.theme_id}`);
-        $("#edit-themeName").attr('value',`${data.themeName}`);
-        $("#edit-themeDescription").attr('value',`${data.themeDescription}`);
-        $("#edit-themeStartDate").attr('value',`${data.themeStartDate}`);
-        $("#edit-themeEndDate").attr('value',`${data.themeEndDate}`);
+        $("#edit-theme_id").attr('value',`${data.news_ID}`);
+        $("#edit-themeName").attr('value',`${data.newsName}`);
+        $("#edit-themeDescription").attr('value',`${data.newsDescription}`);
+        $("#edit-themeStartDate").attr('value',`${data.newsDate}`);
+      /*  $("#edit-themeEndDate").attr('value',`${data.themeEndDate}`);
         $("#edit-themeViewCount").attr('value',`${data.themeViewCount}`);
-        $("#edit-themePicture").attr('value',`${data.themePicture}`);
+        $("#edit-themePicture").attr('value',`${data.themePicture}`);*/
 
     });
 
     $('#editsubmit').click(function() {
         var bOk = confirm("Are you sure to edit it?");
         if(bOk == true){
-
-            data = {
-                themeName: $('#edit-themeName').val(),
-                themeDescription: $('#edit-themeDesciption').val(),
-                themeEndDate: $('#edi-themeEndDate').val()
-            }
-            $.post( "/admin/edit-theme", data)
+            data.newsDescription = $('#edit-themeDescription').val()
+            $.post( "/admin/edit-news", data)
                 .done(function(data) {
-                    console.log('Theme edited...')
+                    console.log('News edited...')
                 });
         }
         $('#edit').hide();
@@ -317,7 +312,7 @@
         $('#edit-form').hide();
         $('#editsubmit').hide();
         $('#theme-output').hide();
-        get_theme();  
+        get_new();  
     });
 
     $('#add').click(function() {
@@ -336,21 +331,21 @@
         if(bOk == true){
 
             data = {
-                themeName: $('#add-themeName').val(),
-                themeDescription: $('#add-themeDescription').val(),
-                themeStartDate: $('#add-themeStartDate').val(),
-                themeEndDate: $('#add-themeEndDate').val(),
-                themeViewCount: $('#add-themeViewCount').val()
+                newsName: $('#add-themeName').val(),
+                newsDescription: $('#add-themeDescription').val(),
+                newsDate: $('#add-themeStartDate').val(),
+              //  newsEndDate: $('#add-themeEndDate').val(),
+               // themsViewCount: $('#add-themeViewCount').val()
             }
             console.log(add);
-            $.post( "/admin/add-theme", data)
+            $.post( "/admin/add-news", data)
                 .done(function(data) {
-                    console.log('Theme added...')
+                    console.log('News added...')
                 });
         }
         $('#add-form').hide();
         $('#addsubmit').hide();
-        get_theme();  
+        get_new();  
     });
 </script>
 </html>
