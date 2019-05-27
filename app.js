@@ -129,25 +129,21 @@ app.post('/signin',(req, res) => {
             res.redirect('/signin');
         }
         else{ //Query is success
-            if(result.length == 0) {//There is no email
-                res.redirect('/signin');
+            if(result[0].password == req.body.password) {//Login is valid
+                sess = req.session;
+                sess.user_id = result[0].user_id;
+                sess.email = result[0].email;
+                sess.rank = result[0].rank;
+                sess.fullName = result[0].fullName;
+                if(result[0].rank == 'admin'){
+                    res.redirect('/admin');
+                }
+                else if(result[0].rank == 'client'){
+                    res.redirect('/');
+                }
             }
-            else {//There is an email
-                if(result[0].password == req.body.password) {//Login is valid
-                    sess = req.session;
-                    sess.email = result[0].email;
-                    sess.rank = result[0].rank;
-                    sess.fullName = result[0].fullName;
-                    if(result[0].rank == 'admin'){
-                        res.redirect('/admin');
-                    }
-                    else if(result[0].rank == 'client'){
-                        res.redirect('/');
-                    }
-                }
-                else { //Log in is invalid
-                    res.redirect('/signin');
-                }
+            else { //Log in is invalid
+                res.redirect('/signin');
             }
         }
     })
@@ -169,39 +165,27 @@ app.get('/signout', (req, res) => {
     })
 })
 
-app.post('/signin',(req, res) => {
-    console.log('Sign in requested...');
-    let sql = `SELECT * FROM user_info WHERE email = '${req.body.email}'`;
+app.post('/signup',(req, res) => {
+    console.log('Sign up requested...');
+    var ranking = 'client';
+    let sql = `INSERT INTO user_info(email, fullName, password, rank, userPhone, birthDate)
+                VALUES('${req.body.email}', '${req.body.fullName}', '${req.body.password}',
+                '${ranking}', '${req.body.userPhone}', ${req.body.birthDate})`;
     let query = con.query(sql, (err, result) => {
         if(err){ //Query is not success
             console.log(err);
-            res.redirect('/signin');
+            res.redirect('/signup');
         }
         else{ //Query is success
-            if(result.length == 0) {//There is no email
-                res.redirect('/signin');
-            }
-            else {//There is an email
-                if(result[0].password == req.body.password) {//Login is valid
-                    sess = req.session;
-                    sess.id = result[0].user_id;
-                    sess.email = result[0].email;
-                    sess.rank = result[0].rank;
-                    sess.fullName = result[0].fullName;
-                    if(result[0].rank == 'admin'){
-                        res.redirect('/admin');
-                    }
-                    else if(result[0].rank == 'client'){
-                        res.redirect('/');
-                    }
-                }
-                else { //Log in is invalid
-                    res.redirect('/signin');
-                }
-            }
+            console.log('sign up successfully...');
+            const sess = req.session;
+            sess.email = req.body.email;
+            sess.rank = req.body.rank;
+            sess.fullName = req.body.fullName;
+            res.redirect('/');
         }
-    })
-});
+    });
+})
 
 app.get('/admin/get-account', (req, res) => {
     let sql = `SELECT * FROM user_info WHERE 1`;
@@ -345,10 +329,13 @@ app.post('/admin/analysis', (req, res) => {
     console.log(req.body);
     let sql;
     if(req.body.val == 1){
-        sql = `SELECT advertisingName AS 'Advertising Name',DATEDIFF(adEndDate, adStartDate) AS Days 
-        FROM advertising_info ORDER BY Days DESC LIMIT 3`;
+        sql = `SELECT DATEDIFF(adEndDate, adStartDate) AS Date 
+        FROM advertising_info ORDER BY Date DESC LIMIT 3`;
     }
     else if(req.body.val == 2){
+        sql =`SELECT t.themeName, COUNT(t.themeName) AS Restaurant_Count 
+        FROM theme_info t, restaurant_info r, theme_register tr 
+        WHERE tr.theme_ID = t.theme_id AND tr.restaurant_ID = r.restaurant_ID GROUP BY t.themeName ORDER BY Restaurant_Count DESC LIMIT 3`;
     }
 
     let query = con.query(sql, (err, results) => {
