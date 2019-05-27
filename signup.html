@@ -12,32 +12,50 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body class="signup container">
-    <div class="clearfix">
+        <div class="clearfix">
             <div class="navBar">
                 <ul>
                     <div class="floatL">
-                        <li><a href="/"><img src="pic/logo.png"></a></li>
+                        <li><a href="/"><img class="logo" src="pic/logo.png"></a></li>
                         <li><a href="#aboutus">ABOUT US</a></li>
                         <li><a href="#report">REPORT</a></li>
                     </div>
                     <div class="floatR">
-                        <li class='not-client'><a href="/signin">SIGN IN</a></li>
+                        <li><a href="/signin">SIGN ON</a></li>
                     </div>
                 </ul>
             </div>
-        </dxiv>
+        </div>
         <div class="clearfix">
             <div class="signup">
                 <h1>Registration<br></h1>
                 <div class="ipform">
                     <form action="/signup" method="POST">
-                        <input type="email" name="email" placeholder="Email" required autofocus><br>
-                        <input type="password" name="password" placeholder="Password" required><br>
-                        <input type="password" name="cfpassword" placeholder="Confirm Password" required><br>
-                        <input type="text" name="fullName" placeholder="Full Name" required><br>
-                        <input type="text" name="userPhone" placeholder="Phone" required><br>
-                        <input type="date" name="birthDate" placeholder="BOD" required><br>
-                        <input type="submit" value="SIGN UP">
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Email</label>
+                            <input type="email" name="email" class="form-control" placeholder="" required autofocus>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Password</label>
+                            <input type="password" name="password" class="form-control" placeholder="" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Confirm Password</label>
+                            <input type="password" name="cfpassword" class="form-control" placeholder="" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Full Name</label>
+                            <input type="text" name="fullName" class="form-control" placeholder="" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Phone</label>
+                            <input type="text" name="userPhone" class="form-control" placeholder="" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Birth date</label>
+                            <input type="date" name="birthDate" class="form-control" placeholder="" required>
+                        </div>
+                        <input type="submit" class="btn btn-dark" value="SIGN IN">
                     </form>
                 </div>
             </div>

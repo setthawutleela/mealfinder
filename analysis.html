@@ -21,9 +21,6 @@
                 </div>
                 <div class="floatR">
                     <li><a href="/signout">SIGN OUT</a></li>
-                    <li>
-                        <p id='username'></p>
-                    </li>
                 </div>
             </ul>
         </div>
@@ -108,11 +105,6 @@
         $('#analysis-topic').show();
         $("html, body").animate({ scrollTop: 0 }, "fast");
     });
-
-    function seeTopic(x) {
-        if (x == 1) return $('#analysis-topic').append(`<p>Top 3 longest duration Ad.</p>`);
-        else if (x == 2) return $('#analysis-topic').append(`<p>Top 3 themes that have most restaurant</p>`);
-    }
 
 </script>
 </html>

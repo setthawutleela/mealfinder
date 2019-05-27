@@ -80,7 +80,7 @@ app.get('/admin/manage-restaurant', (req, res) => {
     res.sendFile(__dirname+'/managerestaurant.html')
 });
 
-app.get('/admin/manage-advertisement', (req, res) => {
+app.get('/admin/manage-ads', (req, res) => {
     if(!req.session.email){
         res.sendFile(__dirname+'/signin.html')
     }
@@ -126,9 +126,14 @@ app.get('/customer/report', (req, res) => {
     res.sendFile(__dirname+'/report.html')
 });
 
+app.get('/design', (req, res) => {
+    res.sendFile(__dirname+'/homepageabed.html')
+});
+
 
 app.post('/signin',(req, res) => {
     console.log('Sign in requested...');
+    console.log(req.body);
     let sql = `SELECT * FROM user_info WHERE email = '${req.body.email}'`;
     let query = con.query(sql, (err, result) => {
         if(err){ //Query is not success
@@ -214,15 +219,55 @@ app.post('/admin/delete-account', (req, res) => {
     })
 });
 
-app.get('/admin/get-advertisement', (req, res) => {
-    let sql = `SELECT * FROM advertisement_info a, company_info c WHERE a.company_ID = c.company_ID`;
+app.get('/admin/get-ads', (req, res) => {
+    let sql = `SELECT * FROM advertising_info a, company_info c WHERE a.company_ID = c.company_ID`;
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    })
+});
+
+app.post('/admin/delete-ads', (req, res) => {
+    console.log(req.body.advertising_ID);
+    let sql = `DELETE FROM advertising_info WHERE advertising_ID = ${req.body.advertising_ID}`;
+    let query = con.query(sql, (err, results) => {
+        console.log(req.body.advertising_ID);
+        res.send(JSON.stringify(results))
+    })
+});
+
+app.post('/admin/edit-ads', (req, res) => {
+    console.log(req.body);
+    let sql = `UPDATE advertising_info SET advertisingName = '${req.body.advertisingName}',
+                adStartDate = '${req.body.adStartDate}', adEndDate = '${req.body.adEndDate}',
+                cost = '${req.body.cost}', paymentPlan = '${req.body.paymentPlan}',
+                advertiseCategory = '${req.body.advertiseCategory}'    
+                WHERE advertising_ID = '${req.body.advertising_ID}'`;
+    let query = con.query(sql, (err, results) => {
+        console.log(results)
+        res.send(JSON.stringify(results))
+    })
+});
+
+app.post('/admin/add-ads', (req, res) => {
+    console.log(req.body);
+    let sql = `INSERT INTO advertising_info(advertisingName, company_ID, adStartDate, adEndDate, cost,
+                paymentPlan, user_ID, advertiseCategory)
+                VALUES('${req.body.advertisingName}', '${req.body.company_ID}', '${req.body.adStartDate}',
+                '${req.body.adEndDate}', '${req.body.cost}', '${req.body.paymentPlan}', '${sess.user_id}'
+                , '${req.body.advertiseCategory}')`
+    let query = con.query(sql, (err, results) => {
+        res.send(JSON.stringify(results))
+    });
+});
+
+app.get('/admin/get-company', (req, res) => {
+    let sql = `SELECT * FROM company_info`;
     let query = con.query(sql, (err, results) => {
         res.send(JSON.stringify(results))
     })
 });
 
 app.post('/admin/delete-theme', (req, res) => {
-    console.log(req);
     let sql = `DELETE FROM theme_info WHERE theme_id = ${req.body.theme_id}`;
     let query = con.query(sql, (err, results) => {
         res.send(JSON.stringify(results))
@@ -230,7 +275,6 @@ app.post('/admin/delete-theme', (req, res) => {
 });
 
 app.post('/admin/edit-theme', (req, res) => {
-    console.log(req.body);
     let sql = `UPDATE theme_info SET themeName = '${req.body.themeName}' WHERE theme_id = '${req.body.theme_id}'`
     let query = con.query(sql, (err, results) => {
         res.send(JSON.stringify(results))
@@ -286,7 +330,6 @@ app.post('/admin/edit-restaurant', (req, res) => {
 app.post('/admin/delete-restaurant', (req, res) => {
     let sql = `DELETE FROM restaurant_info WHERE restaurant_ID = ${req.body.restaurant_ID}`;
     let query = con.query(sql, (err, results) => {
-        console.log(result);
         res.send(JSON.stringify(results))
     })
 });
@@ -525,13 +568,6 @@ app.post('/admin/add-news', (req, res) => {
     });
 });
 
-
-
-
-
-
-
-
 app.get('/admin/manage-blog', (req, res) => {
     if(!req.session.email){
         res.sendFile(__dirname+'/signin.html')
@@ -564,3 +600,31 @@ app.post('/customer/add-blog', (req, res) => {
         res.send(JSON.stringify(results))
     });
 });
+//random Meal
+app.get('/randomMeal',(req,res) => {
+    var priceUnder = req.query.priceUnder;
+    console.log(priceUnder);
+    if(priceUnder == 0)
+    {
+        priceUnder = 500;
+    }
+    //basic
+    let sql = `SELECT mealName, restaurantName  FROM meal_list m, restaurant_info r WHERE m.restaurant_ID = r.restaurant_ID AND m.price < ${priceUnder}`;
+    console
+    let query = con.query(sql,(err, results)=>{
+        console.log(results);
+        if(!results)
+        {
+           // res.send(JSON.stringify(results[randomNum]));
+        }
+        else
+        {    
+            let randomNum = Math.floor((Math.random() * results.length) + 1);
+            console.log(randomNum);
+            res.send(JSON.stringify(results[randomNum]));
+        }
+    });
+   
+    
+});
+
