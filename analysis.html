@@ -11,25 +11,25 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css"> 
 </head>
-<body>
+<body class="container">
 
-        <div class="clearfix container-fluid">
-                <div class="navBar">
-                    <ul>
-                        <div class="floatL">
-                            <li><a href="/admin">BACK</a></li>
-                        </div>
-                        <div class="floatR">
-                            <li><a href="/signout">SIGN OUT</a></li>
-                            <li>
-                                <p id='username'></p>
-                            </li>
-                        </div>
-                    </ul>
+    <div class="clearfix container">
+        <div class="navBar">
+            <ul>
+                <div class="floatL">
+                    <li><a href="/admin">BACK</a></li>
                 </div>
-            </div>
+                <div class="floatR">
+                    <li><a href="/signout">SIGN OUT</a></li>
+                    <li>
+                        <p id='username'></p>
+                    </li>
+                </div>
+            </ul>
+        </div>
+    </div>
 
-    <div class ="container">
+    <div class ="clearfix container">
         <h1>Analysis management</h1>
         <div class ="row">
             <div class="col-3">
@@ -50,41 +50,16 @@
                 </div>
             </div>
             <div class="col">
-                <div class="display">
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                </div>
+                <div id="analysis-output"></div>
             </div>
         </div>
     </div>
 </body>
 <script>
-    let analysis;
+    var analysis;
     let data;
+    $('#analysis-output').hide();
+
     $.get('/check-session', (data, status)=> {
         cookies = JSON.parse(data)
         console.log(cookies)
@@ -99,38 +74,40 @@
         console.log(x);
         $.post("/admin/analysis", data).done(function(data) {
             analysis = JSON.parse(data);
+            if(isUndefined(analysis)){
+                $('#analysis-output').hide();
+            }
         }); 
         console.log(analysis);
-        // var row;
-        // var table = $('<table class="table table-striped">').attr('id', 'display-table');
-        // var thead = $('<thead>');
-        // var tbody = $('<tbody>');
-        // for (i = 0; i < analysis.length; i++) {
-        //     var row = `<tr><td>${i+1}</td><td>${users[i].email}</td></tr>`
-        //     tbody.append(row);
-        // }
-        $.each(analysis, function(index) {
-            // then loop over the object elements
-            $.each(analysis[index], function(key, value) {
-                console.log(index + ": "+key + ": " + value);
-                // var row = `<tr><td th="scope">${index}</td><td>${value}</td></tr>`
-            });
 
-        });
-
+        // EXTRACT VALUE FOR HTML HEADER.
+        $('#analysis-output').text('')
+        var table = $('<table class="table">').attr('id', 'analysis-table');
+        var col = [];
+        var tbody = $('<tbody>')
+        var thead = $('<thead>')
+        for (var i = 0; i < 3; i++) {
+            for (var key in analysis[i]) {
+                if (col.indexOf(key) === -1) {
+                    col.push(key);
+                }
+            }
+        }
+        console.log(col);
+        var row = `<tr><th scope="col">#</th><th scope="col">${col[0]}</th><th scope="col">${col[1]}</th></tr>`;
+        thead.append(row);
+        for (var i = 0; i < 3; i++) {
+            var row = `<tr><th scope="row">${i+1}</th><td>${analysis[i][col[0]]}</td><td>${analysis[i][col[1]]}</td></tr>`;
+            tbody.append(row);
+        }
+        table.append(thead,tbody);
+        $('#analysis-output').append(table);
+        $('#analysis-output').show();
     });
 
-    // $('#search-op').text('')
-    // var table = $('<table>').attr('id', 'account-table');
-    //     table.css('border', '1px solid black');
-    // var tbody = $('<tbody>')
-    // for (i = 0; i < users.length; i++) {
-        
-    //     var row = `<tr id='${i}'><td>${users[i].email}</td></tr>`
-    //     tbody.append(row);
-    // }
-    // table.append(tbody)
-    // $('#search-op').append(table);
+    function isUndefined(x) {
+        return typeof x == "undefined";
+    }
 
 </script>
 </html>

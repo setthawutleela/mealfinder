@@ -1,0 +1,55 @@
+Top 3 longest duration Ad.
+SELECT DATEDIFF(adEndDate, adStartDate) AS Date 
+FROM advertising_info ORDER BY Date DESC LIMIT 3;
+
+Top 3 theme that have most restaurant
+SELECT t.themeName, COUNT(t.themeName) AS Restaurant_Count 
+FROM theme_info t, restaurant_info r, theme_register tr 
+WHERE tr.theme_ID = t.theme_id AND tr.restaurant_ID = r.restaurant_ID GROUP BY t.themeName ORDER BY Restaurant_Count DESC LIMIT 3;
+
+
+Number of ad. by category
+SELECT advertiseCategory, COUNT(advertiseCategory) AS Count 
+FROM advertising_info GROUP BY advertiseCategory ORDER BY Count DESC
+
+Top 3 restaurant view count
+SELECT restaurantName, viewCount 
+FROM restaurant_info ORDER BY viewCount DESC LIMIT 3
+
+Top 3 company with the most contact
+SELECT c.companyName, COUNT(a.company_ID) AS Count 
+FROM advertising_info a, company_info c 
+WHERE a.company_ID = c.company_ID GROUP BY c.companyName ORDER BY Count DESC LIMIT 3
+
+Top 3 theme by view count
+SELECT themeName, themeViewCount
+FROM theme_info ORDER BY themeViewCount DESC LIMIT 3
+
+Top 3 most view blog
+SELECT blogTopic, blogViewCount
+FROM blog ORDER BY blogViewCount DESC LIMIT 3
+
+Top 3 time report in hour
+SELECT hour(reportTime) AS Report_Time_Hour, count(*) AS Count 
+FROM report GROUP BY hour(reportTime) ORDER BY(Count) DESC LIMIT 3
+
+Top 3 most report in month
+SELECT month(reportDate) AS Report_In_Month, count(*) AS Count 
+FROM report GROUP BY month(reportDate) ORDER BY(Count) DESC LIMIT 3
+
+Top 3 restaurant that have most people(according from user_history)
+SELECT r.restaurantName, COUNT(u.restaurant_ID) AS People_Count
+FROM user_history u, restaurant_info r WHERE u.restaurant_ID = r.restaurant_ID GROUP BY (u.restaurant_ID) ORDER BY(People_Count) DESC LIMIT 3
+
+Top 3 most people by month from user_history
+SELECT month(historyDate), COUNT(*) AS People_Count
+FROM user_history GROUP BY(month(historyDate)) ORDER BY People_Count DESC LIMIT 3
+
+User by range of age
+SELECT SUM(CASE WHEN 2019-year(birthDate) < 18 THEN 1 ELSE 0 END) AS Age_Under18,
+		SUM(CASE WHEN 2019-year(birthDate) BETWEEN 18 AND 24 THEN 1 ELSE 0 END) AS Age_18toAge_24,
+        SUM(CASE WHEN 2019-year(birthDate) BETWEEN 25 AND 34 THEN 1 ELSE 0 END) AS Age_25toAge_34,
+		SUM(CASE WHEN 2019-year(birthDate) >35 THEN 1 ELSE 0 END) AS Age_Above35
+FROM user_info
+
+
