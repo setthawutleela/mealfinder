@@ -299,11 +299,15 @@
         if(bOk == true){
 
             data = {
+                theme_id: $('#edit-theme_id').val(),
                 themeName: $('#edit-themeName').val(),
-                themeDescription: $('#edit-themeDesciption').val(),
-                themeEndDate: $('#edi-themeEndDate').val()
+                themeDescription: $('#edit-themeDescription').val(),
+                themeStartDate: $('#edit-themeStartDate').val(),
+                themeEndDate: $('#edit-themeEndDate').val(),
+                themeViewCount: $('#edit-themeViewCount').val(),
+                themePicture: $('#edit-themePicture').val()
             }
-            $.post( "/admin/edit-theme", data)
+            $.post("/admin/edit-theme", data)
                 .done(function(data) {
                     console.log('Theme edited...')
                     $('#edit').hide();
@@ -336,7 +340,7 @@
                 themeDescription: $('#add-themeDescription').val(),
                 themeStartDate: $('#add-themeStartDate').val(),
                 themeEndDate: $('#add-themeEndDate').val(),
-                themeViewCount: $('#add-themeViewCount').val()
+                themePicture: $('#add-themePicture').val()
             }
             console.log(add);
             $.post( "/admin/add-theme", data)

@@ -287,7 +287,15 @@ app.post('/admin/delete-theme', (req, res) => {
 });
 
 app.post('/admin/edit-theme', (req, res) => {
-    let sql = `UPDATE theme_info SET themeName = '${req.body.themeName}' WHERE theme_id = '${req.body.theme_id}'`
+    console.log(req.body)
+    let sql = `UPDATE theme_info SET themeName = '${req.body.themeName}',
+                themeDescription = '${req.body.themeDescription}',
+                themeName = '${req.body.themeName}',
+                themeStartDate = '${req.body.themeStartDate}',
+                themeEndDate = '${req.body.themeEndDate}',
+                themeEndDate = '${req.body.themeViewCount}',
+                themePicture = '${req.body.themePicture}'
+                WHERE theme_id = '${req.body.theme_id}'`
     let query = con.query(sql, (err, results) => {
         res.send(JSON.stringify(results))
     });
